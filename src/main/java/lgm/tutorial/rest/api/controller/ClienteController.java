@@ -31,8 +31,13 @@ public class ClienteController {
         return repository.save(cliente);
     }
 
-   @DeleteMapping("api/cliente/{codigo}")
+   @DeleteMapping(path = "api/cliente/{codigo}")
    public void deleteClienteModel(@PathVariable Integer codigo) {
-       repository.deleteById(codigo);
+        repository.deleteById(codigo);
   }
+
+    @PutMapping(path = "api/cliente/atualizar")
+    public ClienteModel atualizar(@RequestBody ClienteModel cliente) {
+        return repository.save(cliente);
+    }
 }
