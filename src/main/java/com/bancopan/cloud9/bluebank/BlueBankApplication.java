@@ -1,13 +1,13 @@
-package lgm.tutorial.rest.api;
+package com.bancopan.cloud9.bluebank;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TutorialRestApiApplication {
+public class BlueBankApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TutorialRestApiApplication.class, args);
+		SpringApplication.run(BlueBankApplication.class, args);
 	}
 
 }

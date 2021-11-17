@@ -1,4 +1,4 @@
-package lgm.tutorial.rest.api.controller;
+package com.bancopan.cloud9.bluebank.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
