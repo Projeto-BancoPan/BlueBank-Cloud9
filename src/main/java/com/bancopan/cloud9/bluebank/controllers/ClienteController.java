@@ -17,24 +17,24 @@ public class ClienteController {
     @Autowired
     private ClienteRepository repository;
 
-    @GetMapping("/clientes")
+    @GetMapping(value = "/clientes")
     public ResponseEntity<List<ClienteModel>> getAllClienteModel() {
         return ResponseEntity.status(HttpStatus.OK).body(repository.findAll());
     }
 
-    @GetMapping(path = "/cliente/{codigo}")
-    public ResponseEntity consultarCliente(@PathVariable("codigo") Long codigo) {
+    @GetMapping(value = "/cliente/{codigo}")
+    public ResponseEntity<ClienteModel> consultarCliente(@PathVariable("codigo") Long codigo) {
         return repository.findById(codigo)
                 .map(record -> ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.notFound().build());
     }
     
-    @PostMapping(path = "/cliente/salvar")
+    @PostMapping(value = "/cliente/salvar")
     public ResponseEntity<ClienteModel> salvarCliente(@RequestBody ClienteModel cliente) {
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(cliente));
     }
 
-   @DeleteMapping(path = "/cliente/{codigo}")
+   @DeleteMapping(value = "/cliente/{codigo}")
    public ResponseEntity<HttpStatus> deleteCliente(@PathVariable Long codigo) {
        try { 
     	   Optional<ClienteModel> cliente = repository.findById(codigo);
@@ -48,7 +48,7 @@ public class ClienteController {
        
   }
 
-    @PutMapping(path = "/cliente/atualizar")
+    @PutMapping(value = "/cliente/atualizar")
     public ResponseEntity<ClienteModel> atualizarCliente(@RequestBody ClienteModel cliente) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(repository.save(cliente));
         	
