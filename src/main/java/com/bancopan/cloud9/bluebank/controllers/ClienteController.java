@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -22,23 +23,34 @@ public class ClienteController {
     }
 
     @GetMapping(path = "/cliente/{codigo}")
-    public ResponseEntity consultar(@PathVariable("codigo") Long codigo) {
+    public ResponseEntity consultarCliente(@PathVariable("codigo") Long codigo) {
         return repository.findById(codigo)
                 .map(record -> ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.notFound().build());
     }
+    
     @PostMapping(path = "/cliente/salvar")
-    public ResponseEntity<ClienteModel> salvar(@RequestBody ClienteModel cliente) {
+    public ResponseEntity<ClienteModel> salvarCliente(@RequestBody ClienteModel cliente) {
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(cliente));
     }
 
    @DeleteMapping(path = "/cliente/{codigo}")
-   public void deleteClienteModel(@PathVariable Long codigo) {
-        repository.deleteById(codigo);
+   public ResponseEntity<HttpStatus> deleteCliente(@PathVariable Long codigo) {
+       try { 
+    	   Optional<ClienteModel> cliente = repository.findById(codigo);
+    	   if (cliente.isPresent()) {
+    		   repository.delete(cliente.get());
+    	   }
+    	   return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
+       } catch (Exception e) {
+    	   return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+       }
+       
   }
 
     @PutMapping(path = "/cliente/atualizar")
-    public ClienteModel atualizar(@RequestBody ClienteModel cliente) {
-        return repository.save(cliente);
+    public ResponseEntity<ClienteModel> atualizarCliente(@RequestBody ClienteModel cliente) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(repository.save(cliente));
+        	
     }
 }
