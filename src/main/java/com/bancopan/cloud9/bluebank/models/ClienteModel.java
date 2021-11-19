@@ -43,6 +43,10 @@ public class ClienteModel implements Serializable {
         this.renda = renda;
     }
 
+    public ClienteModel() {
+
+    }
+
     public Long getCodigo() {
         return codigo;
     }
