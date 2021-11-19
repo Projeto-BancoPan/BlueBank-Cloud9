@@ -7,7 +7,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Entity(name = "tb_clientes")
+@Entity
+@Table(name = "tb_clientes")
 public class ClienteModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -19,7 +20,13 @@ public class ClienteModel implements Serializable {
     @Column(nullable = false)
     public String nome;
 
+<<<<<<< HEAD
+    @Enumerated(EnumType.STRING)
+    @NotNull
+     private TipoCliente tipoCliente;
+=======
     private Integer tipoCliente;
+>>>>>>> fef3564634507766dc83c014417bab45a1c674cf
 
     @Column(nullable = false, length = 100)
     public String telefone;
@@ -43,18 +50,22 @@ public class ClienteModel implements Serializable {
     }
 
     public Long getCodigo() {
+
         return codigo;
     }
 
     public void setCodigo(Long codigo) {
+
         this.codigo = codigo;
     }
 
     public String getNome() {
+
         return nome;
     }
 
     public void setNome(String nome) {
+
         this.nome = nome;
     }
 
@@ -62,31 +73,42 @@ public class ClienteModel implements Serializable {
         return TipoCliente.tipoClienteEnum(tipoCliente);
     }
 
+<<<<<<< HEAD
+    public void setTipoCliente(TipoCliente tipoCliente) {
+
+=======
     public void setTipo(Integer tipoCliente) {
+>>>>>>> fef3564634507766dc83c014417bab45a1c674cf
         this.tipoCliente = tipoCliente;
     }
 
     public String getTelefone() {
+
         return telefone;
     }
 
     public void setTelefone(String telefone) {
+
         this.telefone = telefone;
     }
 
     public String getEmail() {
+
         return email;
     }
 
     public void setEmail(String email) {
+
         this.email = email;
     }
 
     public BigDecimal getRenda() {
+
         return renda;
     }
 
     public void setRenda(BigDecimal renda) {
+
         this.renda = renda;
     }
 
@@ -100,6 +122,7 @@ public class ClienteModel implements Serializable {
 
     @Override
     public int hashCode() {
+
         return Objects.hash(codigo, nome, tipoCliente, telefone, email, renda);
     }
 }
