@@ -11,35 +11,30 @@ import java.util.Objects;
 @Entity
 @Table(name = "tb_clientes")
 public class ClienteModel implements Serializable {
-    public ClienteModel(){
-    }
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long codigo;
+    private Long idCliente;
 
     @Column(nullable = false)
-    public String nome;
+    private String nome;
 
     @Embedded
     private EnderecoModel enderecoModel;
 
-//    @Enumerated(EnumType.STRING)
-//    @NotNull
-//    private TipoCliente tipoCliente;
-//
-//    private Integer tipoCliente;
-
+    @NotNull
+    private Integer tipoCliente;
 
     @Column(nullable = false, length = 100)
-    public String telefone;
+    private String telefone;
 
     @Column(nullable = false, length = 100)
-    public String email;
+    private String email;
 
     @Column(nullable = false)
+<<<<<<< HEAD
     public BigDecimal renda;
 
 
@@ -67,81 +62,90 @@ public class ClienteModel implements Serializable {
 
 
     public Long getCodigo() {
+=======
+    private BigDecimal renda;
 
-        return codigo;
+    public ClienteModel(){
     }
 
-    public void setCodigo(Long codigo) {
+    public ClienteModel(Long idCliente, String nome, EnderecoModel enderecoModel, Integer tipoCliente, String telefone, String email, BigDecimal renda) {
+        this.idCliente = idCliente;
+        this.nome = nome;
+        this.enderecoModel = enderecoModel;
+        this.tipoCliente = tipoCliente;
+        this.telefone = telefone;
+        this.email = email;
+        this.renda = renda;
+    }
+>>>>>>> 80906c44a46fbf70f3d9919b98629652170ebc88
 
-        this.codigo = codigo;
+    public Long getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Long idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getNome() {
-
         return nome;
     }
 
     public void setNome(String nome) {
-
         this.nome = nome;
     }
 
-//    public TipoCliente getTipo() {
-//
-//        return TipoCliente.tipoClienteEnum(tipoCliente);
-//    }
+    public EnderecoModel getEnderecoModel() {
+        return enderecoModel;
+    }
 
+    public void setEnderecoModel(EnderecoModel enderecoModel) {
+        this.enderecoModel = enderecoModel;
+    }
 
-//    public void setTipoCliente(TipoCliente tipoCliente) {
-//
-//
-////    public void setTipo(Integer tipoCliente) {
-////
-////        this.tipoCliente = tipoCliente;
-////    }
+    public Integer getTipoCliente() {
+        return tipoCliente;
+    }
+
+    public void setTipoCliente(Integer tipoCliente) {
+        this.tipoCliente = tipoCliente;
+    }
 
     public String getTelefone() {
-
         return telefone;
     }
 
     public void setTelefone(String telefone) {
-
         this.telefone = telefone;
     }
 
     public String getEmail() {
-
         return email;
     }
 
     public void setEmail(String email) {
-
         this.email = email;
     }
 
     public BigDecimal getRenda() {
-
         return renda;
     }
 
     public void setRenda(BigDecimal renda) {
-
         this.renda = renda;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        ClienteModel that = (ClienteModel) o;
-//        return codigo.equals(that.codigo) && nome.equals(that.nome) && tipoCliente == that.tipoCliente && telefone.equals(that.telefone) && email.equals(that.email) && renda.equals(that.renda);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//
-//        return Objects.hash(codigo, nome, tipoCliente, telefone, email, renda);
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClienteModel that = (ClienteModel) o;
+        return idCliente.equals(that.idCliente) && nome.equals(that.nome) && enderecoModel.equals(that.enderecoModel) && tipoCliente.equals(that.tipoCliente) && telefone.equals(that.telefone) && email.equals(that.email) && renda.equals(that.renda);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idCliente, nome, enderecoModel, tipoCliente, telefone, email, renda);
+    }
 }
 
