@@ -2,8 +2,6 @@ package com.bancopan.cloud9.bluebank.models;
 
 import com.bancopan.cloud9.bluebank.enums.TipoCliente;
 
-import javax.validation.constraints.NotNull;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,15 +14,19 @@ public class ClienteModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long codigo;
 
     @Column(nullable = false)
     public String nome;
 
+<<<<<<< HEAD
     @Enumerated(EnumType.STRING)
     @NotNull
      private TipoCliente tipoCliente;
+=======
+    private Integer tipoCliente;
+>>>>>>> fef3564634507766dc83c014417bab45a1c674cf
 
     @Column(nullable = false, length = 100)
     public String telefone;
@@ -35,7 +37,7 @@ public class ClienteModel implements Serializable {
     @Column(nullable = false)
     public BigDecimal renda;
 
-    public ClienteModel(Long codigo, String nome, TipoCliente tipoCliente, String telefone, String email, BigDecimal renda) {
+    public ClienteModel(Long codigo, String nome, Integer tipoCliente, String telefone, String email, BigDecimal renda) {
         this.codigo = codigo;
         this.nome = nome;
         this.tipoCliente = tipoCliente;
@@ -64,12 +66,16 @@ public class ClienteModel implements Serializable {
         this.nome = nome;
     }
 
-    public TipoCliente getTipoCliente() {
-        return tipoCliente;
+    public TipoCliente getTipo() {
+        return TipoCliente.tipoClienteEnum(tipoCliente);
     }
 
+<<<<<<< HEAD
     public void setTipoCliente(TipoCliente tipoCliente) {
 
+=======
+    public void setTipo(Integer tipoCliente) {
+>>>>>>> fef3564634507766dc83c014417bab45a1c674cf
         this.tipoCliente = tipoCliente;
     }
 
