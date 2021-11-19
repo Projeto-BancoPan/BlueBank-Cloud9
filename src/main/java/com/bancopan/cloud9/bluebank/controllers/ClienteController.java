@@ -39,23 +39,21 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(cliente));
     }
 
-   @DeleteMapping(value = "/cliente/{codigo}")
-   public ResponseEntity<HttpStatus> deleteCliente(@PathVariable Long codigo) {
-       try { 
-    	   Optional<ClienteModel> cliente = repository.findById(codigo);
-    	   if (cliente.isPresent()) {
-    		   repository.delete(cliente.get());
-    	   }
-    	   return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
-       } catch (Exception e) {
-    	   return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
-       }
-       
-  }
+    @DeleteMapping(value = "/cliente/{codigo}")
+    public ResponseEntity<HttpStatus> deleteCliente(@PathVariable Long codigo) {
+        try {
+           Optional<ClienteModel> cliente = repository.findById(codigo);
+           if (cliente.isPresent()) {
+               repository.delete(cliente.get());
+           }
+           return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+           return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @PutMapping(value = "/cliente/atualizar")
     public ResponseEntity<ClienteModel> atualizarCliente(@RequestBody ClienteModel cliente) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(repository.save(cliente));
-        	
     }
 }
