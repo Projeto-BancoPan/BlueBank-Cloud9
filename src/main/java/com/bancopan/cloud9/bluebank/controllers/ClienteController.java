@@ -2,6 +2,8 @@ package com.bancopan.cloud9.bluebank.controllers;
 
 import com.bancopan.cloud9.bluebank.models.ClienteModel;
 import com.bancopan.cloud9.bluebank.repositories.ClienteRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,17 +14,21 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api")
+@Api(value = "API REST BLUEBANK")
+@CrossOrigin(origins = "*")
 public class ClienteController {
 
     @Autowired
     private ClienteRepository repository;
 
     @GetMapping(value = "/clientes")
+    @ApiOperation(value = "Retorna uma lista de todos os clientes")
     public ResponseEntity<List<ClienteModel>> getAllClienteModel() {
         return ResponseEntity.ok(repository.findAll());
     }
 
     @GetMapping(value = "/cliente/{codigo}")
+    @ApiOperation(value = "Retorna um cliente pelo id")
     public ResponseEntity<ClienteModel> consultarCliente(@PathVariable("codigo") Long codigo) {
         return repository.findById(codigo)
                 .map(record -> ResponseEntity.ok().body(record))
@@ -30,6 +36,7 @@ public class ClienteController {
     }
 
     @GetMapping(value = "/tipo_cliente/{tipoCliente}")
+    @ApiOperation(value = "Salva um novo cliente")
     public ResponseEntity<List<ClienteModel>> filtroId(@PathVariable Integer tipoCliente){
         return ResponseEntity.ok(repository.procuraTipoCliente(tipoCliente));
     }
@@ -40,6 +47,7 @@ public class ClienteController {
     }
 
     @DeleteMapping(value = "/cliente/{codigo}")
+    @ApiOperation(value = "Deleta um cliente")
     public ResponseEntity<HttpStatus> deleteCliente(@PathVariable Long codigo) {
         try {
            Optional<ClienteModel> cliente = repository.findById(codigo);
@@ -53,6 +61,7 @@ public class ClienteController {
     }
 
     @PutMapping(value = "/cliente/atualizar")
+    @ApiOperation(value = "Atualiza os dados de um cliente")
     public ResponseEntity<ClienteModel> atualizarCliente(@RequestBody ClienteModel cliente) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(repository.save(cliente));
     }
