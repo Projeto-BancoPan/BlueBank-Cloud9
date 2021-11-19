@@ -1,5 +1,5 @@
 package com.bancopan.cloud9.bluebank.models;
 
-public class ContaCorrenteModel {
-
+public class ContaCorrenteModel extends ContaModel {
+	
 }
