@@ -30,6 +30,9 @@ public class ClienteModel implements Serializable {
     @Column(nullable = false)
     public BigDecimal renda;
 
+    public ClienteModel(){
+    }
+
     public ClienteModel(Long codigo, String nome, Integer tipoCliente, String telefone, String email, BigDecimal renda) {
         this.codigo = codigo;
         this.nome = nome;

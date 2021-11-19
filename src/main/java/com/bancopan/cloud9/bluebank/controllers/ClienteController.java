@@ -19,7 +19,7 @@ public class ClienteController {
 
     @GetMapping(value = "/clientes")
     public ResponseEntity<List<ClienteModel>> getAllClienteModel() {
-        return ResponseEntity.status(HttpStatus.OK).body(repository.findAll());
+        return ResponseEntity.ok(repository.findAll());
     }
 
     @GetMapping(value = "/cliente/{codigo}")
@@ -27,6 +27,11 @@ public class ClienteController {
         return repository.findById(codigo)
                 .map(record -> ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping(value = "/tipo_cliente/{tipoCliente}")
+    public ResponseEntity<List<ClienteModel>> filtroId(@PathVariable Integer tipoCliente){
+        return ResponseEntity.ok(repository.procuraTipoCliente(tipoCliente));
     }
     
     @PostMapping(value = "/cliente/salvar")
