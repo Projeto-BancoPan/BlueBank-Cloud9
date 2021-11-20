@@ -1,7 +1,5 @@
 package com.bancopan.cloud9.bluebank.models;
 
-import com.bancopan.cloud9.bluebank.enums.TipoCliente;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
