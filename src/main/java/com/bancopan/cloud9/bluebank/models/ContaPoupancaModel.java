@@ -5,8 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 
-@Entity(name="tb_conta_corrente")
-public class ContaCorrenteModel extends ContaModel implements Serializable
+@Entity(name="tb_conta_poupanca")
+public class ContaPoupancaModel extends ContaModel implements Serializable
 {
 	
 	private Long numeroConta;
@@ -15,14 +15,14 @@ public class ContaCorrenteModel extends ContaModel implements Serializable
 
 	
 
-	public ContaCorrenteModel(Long numeroConta, String agencia, Date dataDeAbertura, Date dataDeEncerramento,
+	public ContaPoupancaModel(Long numeroConta, String agencia, Date dataDeAbertura, Date dataDeEncerramento,
 			Long saldo) {
 		super(numeroConta, agencia, dataDeAbertura, dataDeEncerramento, saldo);
 		// TODO Auto-generated constructor stub
 	}
 
 	
-	public ContaCorrenteModel(Long numeroConta, String agencia, Date dataDeAbertura, Date dataDeEncerramento,
+	public ContaPoupancaModel(Long numeroConta, String agencia, Date dataDeAbertura, Date dataDeEncerramento,
 			Long saldo, Long numeroConta2, String agencia2) {
 		super(numeroConta, agencia, dataDeAbertura, dataDeEncerramento, saldo);
 		numeroConta = numeroConta2;
@@ -46,7 +46,8 @@ public class ContaCorrenteModel extends ContaModel implements Serializable
 		this.agencia = agencia;
 	}
 	
-	
-	
-	
 }
+	
+	
+	
+	

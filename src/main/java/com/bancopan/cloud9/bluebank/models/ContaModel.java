@@ -2,30 +2,61 @@ package com.bancopan.cloud9.bluebank.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class ContaModel implements Serializable{
+public abstract class ContaModel implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Long codigo;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long numeroConta;
 	
+	@Id
 	private String agencia;
 	
+	@Column
 	private Date dataDeAbertura;
 	
+	@Column
 	private Date dataDeEncerramento;
 	
+	@Column
 	private Long saldo;
 
-	public Long getCodigo() {
-		return codigo;
+	
+
+	public ContaModel(Long numeroConta, String agencia, Date dataDeAbertura, Date dataDeEncerramento, Long saldo) {
+		super();
+		this.numeroConta = numeroConta;
+		this.agencia = agencia;
+		this.dataDeAbertura = dataDeAbertura;
+		this.dataDeEncerramento = dataDeEncerramento;
+		this.saldo = saldo;
+	}
+	
+
+	public Long getNumeroConta() {
+		return numeroConta;
 	}
 
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
+	public void setNumeroConta(Long numeroConta) {
+		this.numeroConta = numeroConta;
+	}
+
+	public String getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(String agencia) {
+		this.agencia = agencia;
 	}
 
 	public Date getDataDeAbertura() {
@@ -54,6 +85,25 @@ public class ContaModel implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(agencia, dataDeAbertura, dataDeEncerramento, numeroConta, saldo);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ContaModel other = (ContaModel) obj;
+		return Objects.equals(agencia, other.agencia) && Objects.equals(dataDeAbertura, other.dataDeAbertura)
+				&& Objects.equals(dataDeEncerramento, other.dataDeEncerramento)
+				&& Objects.equals(numeroConta, other.numeroConta) && Objects.equals(saldo, other.saldo);
 	}
 	
 	
