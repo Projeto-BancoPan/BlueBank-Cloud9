@@ -14,7 +14,7 @@ public class ContaCorrenteModel extends ContaModel implements Serializable
 {
 	
 	private static final long serialVersionUID = 1L;
-
+	
 	private Long numeroConta;
 	
 	private String agencia;
