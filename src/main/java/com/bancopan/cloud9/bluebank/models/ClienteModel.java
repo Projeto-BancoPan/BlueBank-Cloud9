@@ -32,15 +32,15 @@ public class ClienteModel implements Serializable {
     private String email;
 
     @Column(nullable = false)
-    private BigDecimal renda;
+    public BigDecimal renda;
 
     public ClienteModel(){
+
     }
 
-    public ClienteModel(Long idCliente, String nome, EnderecoModel enderecoModel, Integer tipoCliente, String telefone, String email, BigDecimal renda) {
+    public ClienteModel(Long idCliente, String nome, Integer tipoCliente, String telefone, String email, BigDecimal renda) {
         this.idCliente = idCliente;
         this.nome = nome;
-        this.enderecoModel = enderecoModel;
         this.tipoCliente = tipoCliente;
         this.telefone = telefone;
         this.email = email;
