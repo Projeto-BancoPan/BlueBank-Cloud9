@@ -2,40 +2,46 @@ package com.bancopan.cloud9.bluebank.models;
 
 import com.bancopan.cloud9.bluebank.enums.TipoCliente;
 
-import javax.validation.constraints.NotNull;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Entity(name = "tb_clientes")
+@Entity
+@Table(name = "tb_clientes")
 public class ClienteModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long codigo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idCliente;
 
     @Column(nullable = false)
-    public String nome;
+    private String nome;
 
-    @Enumerated(EnumType.STRING)
+    @Embedded
+    private EnderecoModel enderecoModel;
+
     @NotNull
-    private TipoCliente tipoCliente;
+    private Integer tipoCliente;
 
     @Column(nullable = false, length = 100)
-    public String telefone;
+    private String telefone;
 
     @Column(nullable = false, length = 100)
-    public String email;
+    private String email;
 
     @Column(nullable = false)
     public BigDecimal renda;
 
-    public ClienteModel(Long codigo, String nome, TipoCliente tipoCliente, String telefone, String email, BigDecimal renda) {
-        this.codigo = codigo;
+    public ClienteModel(){
+
+    }
+
+    public ClienteModel(Long idCliente, String nome, Integer tipoCliente, String telefone, String email, BigDecimal renda) {
+        this.idCliente = idCliente;
         this.nome = nome;
         this.tipoCliente = tipoCliente;
         this.telefone = telefone;
@@ -43,12 +49,12 @@ public class ClienteModel implements Serializable {
         this.renda = renda;
     }
 
-    public Long getCodigo() {
-        return codigo;
+    public Long getIdCliente() {
+        return idCliente;
     }
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
+    public void setIdCliente(Long idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getNome() {
@@ -59,11 +65,19 @@ public class ClienteModel implements Serializable {
         this.nome = nome;
     }
 
-    public TipoCliente getTipoCliente() {
-        return tipoCliente;
+    public EnderecoModel getEnderecoModel() {
+        return enderecoModel;
     }
 
-    public void setTipoCliente(TipoCliente tipoCliente) {
+    public void setEnderecoModel(EnderecoModel enderecoModel) {
+        this.enderecoModel = enderecoModel;
+    }
+
+    public TipoCliente getTipoCliente() {
+        return TipoCliente.tipoClienteEnum(tipoCliente);
+    }
+
+    public void setTipoCliente(Integer tipoCliente) {
         this.tipoCliente = tipoCliente;
     }
 
@@ -96,12 +110,12 @@ public class ClienteModel implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ClienteModel that = (ClienteModel) o;
-        return codigo.equals(that.codigo) && nome.equals(that.nome) && tipoCliente == that.tipoCliente && telefone.equals(that.telefone) && email.equals(that.email) && renda.equals(that.renda);
+        return idCliente.equals(that.idCliente) && nome.equals(that.nome) && enderecoModel.equals(that.enderecoModel) && tipoCliente.equals(that.tipoCliente) && telefone.equals(that.telefone) && email.equals(that.email) && renda.equals(that.renda);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codigo, nome, tipoCliente, telefone, email, renda);
+        return Objects.hash(idCliente, nome, enderecoModel, tipoCliente, telefone, email, renda);
     }
 }
 

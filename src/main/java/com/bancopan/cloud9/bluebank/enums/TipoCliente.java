@@ -2,16 +2,36 @@ package com.bancopan.cloud9.bluebank.enums;
 
 public enum TipoCliente {
 
-    PESSOAFISICA("PessoaFisica"),
-    PESSOAJURIDICA("PessoaJuridica");
+    PESSOAFISICA(1, "Pessoa Física"),
+    PESSOAJURIDICA(2,"Pessoa Jurídica");
 
-    private final String tipoCliente;
+    private Integer codigo;
+    private String descricao;
 
-    TipoCliente(String tipoCliente) {
-        this.tipoCliente = tipoCliente;
+
+    TipoCliente(Integer codigo, String descricao) {
+        this.codigo = codigo;
+        this.descricao = descricao;
     }
 
-    public String getTipoCliente() {
-        return tipoCliente;
+    public Integer getCodigo() {
+        return codigo;
     }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public static TipoCliente tipoClienteEnum(Integer codigo) {
+        if(codigo == null) {
+            return null;
+        }
+        for(TipoCliente descricaoEnum : TipoCliente.values()) {
+            if(codigo.equals(descricaoEnum.getCodigo())) {
+                return descricaoEnum;
+            }
+        }
+        throw new IllegalArgumentException("Código inválido: " + codigo);
+    }
+
 }
