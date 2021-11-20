@@ -21,7 +21,7 @@ public abstract class ContaModel implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long numeroConta;
 	
-	@Id
+	@Column
 	private String agencia;
 	
 	@Column

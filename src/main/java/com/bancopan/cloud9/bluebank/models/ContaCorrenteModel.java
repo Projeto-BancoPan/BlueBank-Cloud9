@@ -15,13 +15,9 @@ public class ContaCorrenteModel extends ContaModel implements Serializable
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Long numeroConta;
 	
-	private String agencia;
-	
-	@Column
 	@OneToOne
-	@JoinColumn(unique = true)
+	@JoinColumn(name= "Cliente_id", referencedColumnName="codigo", unique = true)
 	private ClienteModel cliente;
 	
 	@Column
@@ -33,30 +29,10 @@ public class ContaCorrenteModel extends ContaModel implements Serializable
 	}
 
 	public ContaCorrenteModel(Long numeroConta, String agencia, Date dataDeAbertura, Date dataDeEncerramento,
-			Long numeroConta2, String agencia2, ClienteModel cliente, Long saldoContaPoupança) {
+			ClienteModel cliente, Long saldoContaPoupança) {
 		super(numeroConta, agencia, dataDeAbertura, dataDeEncerramento);
-		numeroConta = numeroConta2;
-		agencia = agencia2;
 		this.cliente = cliente;
 		this.saldoContaPoupança = saldoContaPoupança;
-	}
-	
-	
-
-	public Long getNumeroConta() {
-		return numeroConta;
-	}
-
-	public void setNumeroConta(Long numeroConta) {
-		this.numeroConta = numeroConta;
-	}
-
-	public String getAgencia() {
-		return agencia;
-	}
-
-	public void setAgencia(String agencia) {
-		this.agencia = agencia;
 	}
 
 	public ClienteModel getCliente() {
@@ -83,7 +59,7 @@ public class ContaCorrenteModel extends ContaModel implements Serializable
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(agencia, cliente, numeroConta, saldoContaPoupança);
+		result = prime * result + Objects.hash(cliente, saldoContaPoupança);
 		return result;
 	}
 
@@ -96,16 +72,8 @@ public class ContaCorrenteModel extends ContaModel implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		ContaCorrenteModel other = (ContaCorrenteModel) obj;
-		return Objects.equals(agencia, other.agencia) && Objects.equals(cliente, other.cliente)
-				&& Objects.equals(numeroConta, other.numeroConta)
-				&& Objects.equals(saldoContaPoupança, other.saldoContaPoupança);
+		return Objects.equals(cliente, other.cliente) && Objects.equals(saldoContaPoupança, other.saldoContaPoupança);
 	}
-	
-
-	
-
-	
-	
 	
 	
 	
