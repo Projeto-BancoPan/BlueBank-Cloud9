@@ -34,50 +34,20 @@ public class ClienteModel implements Serializable {
     private String email;
 
     @Column(nullable = false)
-<<<<<<< HEAD
     public BigDecimal renda;
 
-
-    //    public ClienteModel(Long codigo, String nome, Integer tipoCliente, String telefone, String email, BigDecimal renda) {
-//        this.codigo = codigo;
-//        this.nome = nome;
-//       this.tipoCliente = tipoCliente;
-//        this.telefone = telefone;
-//        this.email = email;
-//        this.renda = renda;
-//    }
-
-//    public ClienteModel(){
-//
-//    }
-//
-//    public ClienteModel(Long codigo, String nome, Integer tipoCliente, String telefone, String email, BigDecimal renda) {
-//        this.codigo = codigo;
-//        this.nome = nome;
-//        this.tipoCliente = tipoCliente;
-//        this.telefone = telefone;
-//        this.email = email;
-//        this.renda = renda;
-//    }
-
-
-    public Long getCodigo() {
-=======
-    private BigDecimal renda;
-
     public ClienteModel(){
+
     }
 
-    public ClienteModel(Long idCliente, String nome, EnderecoModel enderecoModel, Integer tipoCliente, String telefone, String email, BigDecimal renda) {
+    public ClienteModel(Long idCliente, String nome, Integer tipoCliente, String telefone, String email, BigDecimal renda) {
         this.idCliente = idCliente;
         this.nome = nome;
-        this.enderecoModel = enderecoModel;
         this.tipoCliente = tipoCliente;
         this.telefone = telefone;
         this.email = email;
         this.renda = renda;
     }
->>>>>>> 80906c44a46fbf70f3d9919b98629652170ebc88
 
     public Long getIdCliente() {
         return idCliente;

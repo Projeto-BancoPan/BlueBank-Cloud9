@@ -27,7 +27,7 @@ public class ClienteController {
         return ResponseEntity.ok(repository.findAll());
     }
 
-    @GetMapping(value = "/cliente/{codigo}")
+    @GetMapping(value = "/cliente/{id}")
     @ApiOperation(value = "Retorna um cliente pelo id")
     public ResponseEntity<ClienteModel> consultarCliente(@PathVariable("codigo") Long codigo) {
         return repository.findById(codigo)
@@ -46,7 +46,7 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(cliente));
     }
 
-    @DeleteMapping(value = "/cliente/{codigo}")
+    @DeleteMapping(value = "/cliente/{id}")
     @ApiOperation(value = "Deleta um cliente")
     public ResponseEntity<HttpStatus> deleteCliente(@PathVariable Long codigo) {
         try {
