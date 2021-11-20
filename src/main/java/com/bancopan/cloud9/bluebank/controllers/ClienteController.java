@@ -36,12 +36,13 @@ public class ClienteController {
     }
 
     @GetMapping(value = "/tipo_cliente/{tipoCliente}")
-    @ApiOperation(value = "Salva um novo cliente")
+    @ApiOperation(value = "Retorna um cliente pelo tipo")
     public ResponseEntity<List<ClienteModel>> filtroId(@PathVariable Integer tipoCliente){
         return ResponseEntity.ok(repository.procuraTipoCliente(tipoCliente));
     }
     
     @PostMapping(value = "/cliente/salvar")
+    @ApiOperation(value = "Salva um novo cliente")
     public ResponseEntity<ClienteModel> salvarCliente(@RequestBody ClienteModel cliente) {
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(cliente));
     }
