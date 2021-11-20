@@ -1,5 +1,7 @@
 package com.bancopan.cloud9.bluebank.models;
 
+import com.bancopan.cloud9.bluebank.enums.TipoCliente;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -71,8 +73,8 @@ public class ClienteModel implements Serializable {
         this.enderecoModel = enderecoModel;
     }
 
-    public Integer getTipoCliente() {
-        return tipoCliente;
+    public TipoCliente getTipoCliente() {
+        return TipoCliente.tipoClienteEnum(tipoCliente);
     }
 
     public void setTipoCliente(Integer tipoCliente) {
