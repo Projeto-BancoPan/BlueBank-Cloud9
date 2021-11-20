@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @MappedSuperclass
 public abstract class ContaModel implements Serializable{
@@ -23,73 +25,73 @@ public abstract class ContaModel implements Serializable{
 	private String agencia;
 	
 	@Column
-	private Date dataDeAbertura;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataDeAbertura = new java.sql.Date(System.currentTimeMillis());
 	
 	@Column
 	private Date dataDeEncerramento;
-	
-	@Column
-	private Long saldo;
 
-	
-
-	public ContaModel(Long numeroConta, String agencia, Date dataDeAbertura, Date dataDeEncerramento, Long saldo) {
+	public ContaModel(Long numeroConta, String agencia, Date dataDeAbertura, Date dataDeEncerramento) {
 		super();
 		this.numeroConta = numeroConta;
 		this.agencia = agencia;
 		this.dataDeAbertura = dataDeAbertura;
 		this.dataDeEncerramento = dataDeEncerramento;
-		this.saldo = saldo;
 	}
-	
 
+	
+	
 	public Long getNumeroConta() {
 		return numeroConta;
 	}
+
+
 
 	public void setNumeroConta(Long numeroConta) {
 		this.numeroConta = numeroConta;
 	}
 
+
+
 	public String getAgencia() {
 		return agencia;
 	}
+
+
 
 	public void setAgencia(String agencia) {
 		this.agencia = agencia;
 	}
 
+
+
 	public Date getDataDeAbertura() {
 		return dataDeAbertura;
 	}
+
+
 
 	public void setDataDeAbertura(Date dataDeAbertura) {
 		this.dataDeAbertura = dataDeAbertura;
 	}
 
+
+
 	public Date getDataDeEncerramento() {
 		return dataDeEncerramento;
 	}
+
+
 
 	public void setDataDeEncerramento(Date dataDeEncerramento) {
 		this.dataDeEncerramento = dataDeEncerramento;
 	}
 
-	public Long getSaldo() {
-		return saldo;
-	}
 
-	public void setSaldo(Long saldo) {
-		this.saldo = saldo;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(agencia, dataDeAbertura, dataDeEncerramento, numeroConta, saldo);
+		return Objects.hash(agencia, dataDeAbertura, dataDeEncerramento, numeroConta);
 	}
 
 	@Override
@@ -103,8 +105,13 @@ public abstract class ContaModel implements Serializable{
 		ContaModel other = (ContaModel) obj;
 		return Objects.equals(agencia, other.agencia) && Objects.equals(dataDeAbertura, other.dataDeAbertura)
 				&& Objects.equals(dataDeEncerramento, other.dataDeEncerramento)
-				&& Objects.equals(numeroConta, other.numeroConta) && Objects.equals(saldo, other.saldo);
+				&& Objects.equals(numeroConta, other.numeroConta);
 	}
+
+	
+
+	
+
 	
 	
 	
