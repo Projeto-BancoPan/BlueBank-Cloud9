@@ -31,8 +31,10 @@ public abstract class ContaModel implements Serializable{
 	@Column
 	private Date dataDeEncerramento;
 
+	public ContaModel(){
+	}
+
 	public ContaModel(Long numeroConta, String agencia, Date dataDeAbertura, Date dataDeEncerramento) {
-		super();
 		this.numeroConta = numeroConta;
 		this.agencia = agencia;
 		this.dataDeAbertura = dataDeAbertura;
