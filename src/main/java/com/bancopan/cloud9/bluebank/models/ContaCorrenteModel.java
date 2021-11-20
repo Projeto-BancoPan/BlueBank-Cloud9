@@ -2,8 +2,10 @@ package com.bancopan.cloud9.bluebank.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -16,8 +18,8 @@ public class ContaCorrenteModel extends ContaModel implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	
-	@OneToOne
-	@JoinColumn(name= "Cliente_id", referencedColumnName="idCliente")
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(unique = true)
 	private ClienteModel cliente;
 	
 	@Column
