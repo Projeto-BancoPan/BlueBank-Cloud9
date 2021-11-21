@@ -1,5 +1,9 @@
 package com.bancopan.cloud9.bluebank.controllers;
 
+import com.bancopan.cloud9.bluebank.dtos.ClienteContatoDTO;
+import com.bancopan.cloud9.bluebank.dtos.ClienteEnderecoDTO;
+import com.bancopan.cloud9.bluebank.dtos.ClienteTipoDTO;
+import com.bancopan.cloud9.bluebank.enums.TipoCliente;
 import com.bancopan.cloud9.bluebank.models.ClienteModel;
 import com.bancopan.cloud9.bluebank.repositories.ClienteRepository;
 import io.swagger.annotations.Api;
@@ -9,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -35,12 +41,36 @@ public class ClienteController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping(value = "/cliente_endereco/{idCliente}")
+    @ApiOperation(value = "Retorna o cliente pelo id somente com o endereço")
+    public ResponseEntity<ClienteEnderecoDTO> consultarClientePorEnderecoDTO(@PathVariable("idCliente") Long idCliente) {
+        ClienteModel clienteModel = repository.getById(idCliente);
+        ClienteEnderecoDTO clienteEnderecoDTO = new ClienteEnderecoDTO(clienteModel);
+        return ResponseEntity.ok(clienteEnderecoDTO);
+    }
+
+    @GetMapping(value = "/cliente_contato/{idCliente}")
+    @ApiOperation(value = "Retorna o cliente pelo id somente com o endereço")
+    public ResponseEntity<ClienteContatoDTO> consultarClientePorContatoDTO(@PathVariable("idCliente") Long idCliente) {
+        ClienteModel clienteModel = repository.getById(idCliente);
+        ClienteContatoDTO clienteContatoDTO = new ClienteContatoDTO(clienteModel);
+        return ResponseEntity.ok(clienteContatoDTO);
+    }
+
     @GetMapping(value = "/tipo_cliente/{tipoCliente}")
     @ApiOperation(value = "Retorna um cliente pelo tipo")
-    public ResponseEntity<List<ClienteModel>> filtroId(@PathVariable Integer tipoCliente){
+    public ResponseEntity<List<ClienteModel>> filtroId(@PathVariable TipoCliente tipoCliente){
         return ResponseEntity.ok(repository.procuraTipoCliente(tipoCliente));
     }
-    
+
+    @GetMapping(value = "/tipo_cliente_dto/{tipoCliente}")
+    @ApiOperation(value = "Retorna um cliente pelo tipo")
+    public ResponseEntity<List<ClienteTipoDTO>> filtroporTipoDTO(@PathVariable TipoCliente tipoCliente){
+        List<ClienteModel> listaClienteModel = repository.findAll();
+        List<ClienteTipoDTO> listaClienteTipoDTO = ClienteTipoDTO.converteParaDTO(listaClienteModel);
+        return ResponseEntity.ok(listaClienteTipoDTO);
+    }
+
     @PostMapping(value = "/cliente/salvar")
     @ApiOperation(value = "Salva um novo cliente")
     public ResponseEntity<ClienteModel> salvarCliente(@RequestBody ClienteModel cliente) {

@@ -24,8 +24,8 @@ public class ClienteModel implements Serializable {
     @Embedded
     private EnderecoModel enderecoModel;
 
-    @NotNull
-    private Integer tipoCliente;
+    @Enumerated(EnumType.STRING)
+    private TipoCliente tipoCliente;
 
     @Column(nullable = false, length = 100)
     private String telefone;
@@ -40,7 +40,7 @@ public class ClienteModel implements Serializable {
 
     }
 
-    public ClienteModel(Long idCliente, String nome, Integer tipoCliente, String telefone, String email, BigDecimal renda) {
+    public ClienteModel(Long idCliente, String nome, TipoCliente  tipoCliente, String telefone, String email, BigDecimal renda) {
         this.idCliente = idCliente;
         this.nome = nome;
         this.tipoCliente = tipoCliente;
@@ -74,10 +74,10 @@ public class ClienteModel implements Serializable {
     }
 
     public TipoCliente getTipoCliente() {
-        return TipoCliente.tipoClienteEnum(tipoCliente);
+        return tipoCliente;
     }
 
-    public void setTipoCliente(Integer tipoCliente) {
+    public void setTipoCliente(TipoCliente tipoCliente) {
         this.tipoCliente = tipoCliente;
     }
 
