@@ -18,10 +18,6 @@ public class ContaCorrenteModel extends ContaModel implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	
-	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(unique = true)
-	private ClienteModel cliente;
-	
 	@Column
 	private Long saldoContaCorrente;
 
@@ -33,26 +29,16 @@ public class ContaCorrenteModel extends ContaModel implements Serializable
 		// TODO Auto-generated constructor stub
 	}
 
-	public ContaCorrenteModel(Long numeroConta, String agencia, Date dataDeAbertura, Date dataDeEncerramento,
-			ClienteModel cliente, Long saldoContaPoupança) {
-		super(numeroConta, agencia, dataDeAbertura, dataDeEncerramento);
-		this.cliente = cliente;
-		this.saldoContaCorrente = saldoContaPoupança;
-	}
-
-	public ClienteModel getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(ClienteModel cliente) {
-		this.cliente = cliente;
+	public ContaCorrenteModel(Long saldoContaCorrente) {
+		super();
+		this.saldoContaCorrente = saldoContaCorrente;
 	}
 
 	public Long getSaldoContaCorrente() {
 		return saldoContaCorrente;
 	}
 
-	public void setSaldoContaCorrente(Long saldoContaPoupança) {
+	public void setSaldoContaCorrente(Long saldoContaCorrente) {
 		this.saldoContaCorrente = saldoContaCorrente;
 	}
 
@@ -64,7 +50,7 @@ public class ContaCorrenteModel extends ContaModel implements Serializable
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(cliente, saldoContaCorrente);
+		result = prime * result + Objects.hash(saldoContaCorrente);
 		return result;
 	}
 
@@ -77,8 +63,10 @@ public class ContaCorrenteModel extends ContaModel implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		ContaCorrenteModel other = (ContaCorrenteModel) obj;
-		return Objects.equals(cliente, other.cliente) && Objects.equals(saldoContaCorrente, other.saldoContaCorrente);
+		return Objects.equals(saldoContaCorrente, other.saldoContaCorrente);
 	}
+
+	
 	
 	
 	
