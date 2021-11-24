@@ -1,74 +1,73 @@
 package com.bancopan.cloud9.bluebank.models;
 
-import java.io.Serializable;
+import com.bancopan.cloud9.bluebank.enums.Agencia;
+import com.bancopan.cloud9.bluebank.superclasses.ContaModel;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+@Entity(name="tb_contas_corrente")
+public class ContaCorrenteModel extends ContaModel {
 
-@Entity(name="tb_conta_corrente")
-public class ContaCorrenteModel extends ContaModel implements Serializable
-{
-	
-	private static final long serialVersionUID = 1L;
-	
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long conta;
+
 	@Column
-	private Long saldoContaCorrente;
+	@Enumerated(EnumType.STRING)
+	private Agencia agencia;
 
-	public ContaCorrenteModel(){
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "conta_poupanca", unique = true)
+	private ContaPoupancaModel contaPoupancaModel;
+
+	public ContaCorrenteModel() {
 	}
 
-	public ContaCorrenteModel(Long numeroConta, String agencia, Date dataDeAbertura, Date dataDeEncerramento) {
-		super(numeroConta, agencia, dataDeAbertura, dataDeEncerramento);
-		// TODO Auto-generated constructor stub
+	public ContaCorrenteModel(Date dataDeAbertura, BigDecimal saldoContaCorrente, Long conta, Agencia agencia, ContaPoupancaModel contaPoupancaModel) {
+		super(dataDeAbertura, saldoContaCorrente);
+		this.conta = conta;
+		this.agencia = agencia;
+		this.contaPoupancaModel = contaPoupancaModel;
 	}
 
-	public ContaCorrenteModel(Long saldoContaCorrente) {
-		super();
-		this.saldoContaCorrente = saldoContaCorrente;
+	public Long getConta() {
+		return conta;
 	}
 
-	public Long getSaldoContaCorrente() {
-		return saldoContaCorrente;
+	public void setConta(Long conta) {
+		this.conta = conta;
 	}
 
-	public void setSaldoContaCorrente(Long saldoContaCorrente) {
-		this.saldoContaCorrente = saldoContaCorrente;
+	public Agencia getAgencia() {
+		return agencia;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
+	}
+
+	public ContaPoupancaModel getContaPoupancaModel() {
+		return contaPoupancaModel;
+	}
+
+	public void setContaPoupancaModel(ContaPoupancaModel contaPoupancaModel) {
+		this.contaPoupancaModel = contaPoupancaModel;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+		ContaCorrenteModel that = (ContaCorrenteModel) o;
+		return conta.equals(that.conta) && agencia == that.agencia && contaPoupancaModel.equals(that.contaPoupancaModel);
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(saldoContaCorrente);
-		return result;
+		return Objects.hash(super.hashCode(), conta, agencia, contaPoupancaModel);
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ContaCorrenteModel other = (ContaCorrenteModel) obj;
-		return Objects.equals(saldoContaCorrente, other.saldoContaCorrente);
-	}
-
-	
-	
-	
-	
-	
 }

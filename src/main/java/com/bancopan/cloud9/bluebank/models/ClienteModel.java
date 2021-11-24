@@ -21,8 +21,9 @@ public class ClienteModel implements Serializable {
     @Column(nullable = false)
     private String nome;
 
-    @Embedded
-    private EnderecoModel enderecoModel;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_endereco")
+	private EnderecoModel enderecoModel;
 
     @Enumerated(EnumType.STRING)
     private TipoCliente tipoCliente;
