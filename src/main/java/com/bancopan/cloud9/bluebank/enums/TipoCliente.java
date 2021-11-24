@@ -8,10 +8,12 @@ public enum TipoCliente {
     private String decricao;
 
     TipoCliente(String descricao) {
+
         this.decricao = descricao;
     }
 
     public String getDecricao(){
+
         return decricao;
     }
 
