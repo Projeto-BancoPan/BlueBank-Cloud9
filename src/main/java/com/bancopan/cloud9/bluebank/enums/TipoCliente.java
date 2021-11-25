@@ -2,16 +2,17 @@ package com.bancopan.cloud9.bluebank.enums;
 
 public enum TipoCliente {
 
-    PESSOAFISICA("PessoaFisica"),
-    PESSOAJURIDICA("PessoaJuridica");
+    PESSOAFISICA("PESSOAFISICA"),
+    PESSOAJURIDICA("PESSOAJURIDICA");
 
-    private final String tipoCliente;
+    private String decricao;
 
-    TipoCliente(String tipoCliente) {
-        this.tipoCliente = tipoCliente;
+    TipoCliente(String descricao) {
+        this.decricao = descricao;
     }
 
-    public String getTipoCliente() {
-        return tipoCliente;
+    public String getDecricao(){
+        return decricao;
     }
+
 }

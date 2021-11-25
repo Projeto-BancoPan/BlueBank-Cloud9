@@ -2,110 +2,153 @@ package com.bancopan.cloud9.bluebank.models;
 
 import com.bancopan.cloud9.bluebank.enums.TipoCliente;
 
-import javax.validation.constraints.NotNull;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Entity(name = "tb_clientes")
+@Entity
+@Table(name = "tb_clientes")
 public class ClienteModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long codigo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idCliente;
 
     @Column(nullable = false)
-    public String nome;
+    private String nome;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_endereco")
+	private EnderecoModel enderecoModel;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
     private TipoCliente tipoCliente;
 
     @Column(nullable = false, length = 100)
-    public String telefone;
+    private String telefone;
 
     @Column(nullable = false, length = 100)
-    public String email;
+    private String email;
 
     @Column(nullable = false)
     public BigDecimal renda;
+    
+    @OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(unique = true)
+	private ContaCorrenteModel contaCorrente;
 
-    public ClienteModel(Long codigo, String nome, TipoCliente tipoCliente, String telefone, String email, BigDecimal renda) {
-        this.codigo = codigo;
-        this.nome = nome;
-        this.tipoCliente = tipoCliente;
-        this.telefone = telefone;
-        this.email = email;
-        this.renda = renda;
-    }
-
-    public ClienteModel() {
+    public ClienteModel(){
 
     }
 
-    public Long getCodigo() {
-        return codigo;
-    }
+	public ClienteModel(Long idCliente, String nome, EnderecoModel enderecoModel, TipoCliente tipoCliente,
+			String telefone, String email, BigDecimal renda, ContaCorrenteModel contaCorrente) {
+		super();
+		this.idCliente = idCliente;
+		this.nome = nome;
+		this.enderecoModel = enderecoModel;
+		this.tipoCliente = tipoCliente;
+		this.telefone = telefone;
+		this.email = email;
+		this.renda = renda;
+		this.contaCorrente = contaCorrente;
+	}
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
+	public Long getIdCliente() {
+		return idCliente;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public void setIdCliente(Long idCliente) {
+		this.idCliente = idCliente;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public TipoCliente getTipoCliente() {
-        return tipoCliente;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public void setTipoCliente(TipoCliente tipoCliente) {
-        this.tipoCliente = tipoCliente;
-    }
+	public EnderecoModel getEnderecoModel() {
+		return enderecoModel;
+	}
 
-    public String getTelefone() {
-        return telefone;
-    }
+	public void setEnderecoModel(EnderecoModel enderecoModel) {
+		this.enderecoModel = enderecoModel;
+	}
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
+	public TipoCliente getTipoCliente() {
+		return tipoCliente;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setTipoCliente(TipoCliente tipoCliente) {
+		this.tipoCliente = tipoCliente;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getTelefone() {
+		return telefone;
+	}
 
-    public BigDecimal getRenda() {
-        return renda;
-    }
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
 
-    public void setRenda(BigDecimal renda) {
-        this.renda = renda;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ClienteModel that = (ClienteModel) o;
-        return codigo.equals(that.codigo) && nome.equals(that.nome) && tipoCliente == that.tipoCliente && telefone.equals(that.telefone) && email.equals(that.email) && renda.equals(that.renda);
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(codigo, nome, tipoCliente, telefone, email, renda);
-    }
+	public BigDecimal getRenda() {
+		return renda;
+	}
+
+	public void setRenda(BigDecimal renda) {
+		this.renda = renda;
+	}
+
+	public ContaCorrenteModel getContaCorrente() {
+		return contaCorrente;
+	}
+
+	public void setContaCorrente(ContaCorrenteModel contaCorrente) {
+		this.contaCorrente = contaCorrente;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(contaCorrente, email, enderecoModel, idCliente, nome, renda, telefone, tipoCliente);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ClienteModel other = (ClienteModel) obj;
+		return Objects.equals(contaCorrente, other.contaCorrente) && Objects.equals(email, other.email)
+				&& Objects.equals(enderecoModel, other.enderecoModel) && Objects.equals(idCliente, other.idCliente)
+				&& Objects.equals(nome, other.nome) && Objects.equals(renda, other.renda)
+				&& Objects.equals(telefone, other.telefone) && tipoCliente == other.tipoCliente;
+	}
+
+   
 }
 
