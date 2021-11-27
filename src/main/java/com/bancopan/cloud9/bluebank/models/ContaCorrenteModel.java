@@ -1,5 +1,6 @@
 package com.bancopan.cloud9.bluebank.models;
 
+<<<<<<< HEAD
 import com.bancopan.cloud9.bluebank.enums.Agencia;
 import com.bancopan.cloud9.bluebank.superclasses.ContaModel;
 
@@ -9,6 +10,17 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity(name="tb_contas_corrente")
+=======
+
+import com.bancopan.cloud9.bluebank.enums.Agencia;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+
+@Entity(name = "tb_contas_corrente")
+>>>>>>> featureTransacoes
 public class ContaCorrenteModel extends ContaModel {
 
 	@Id
@@ -23,10 +35,23 @@ public class ContaCorrenteModel extends ContaModel {
 	@JoinColumn(name = "conta_poupanca", unique = true)
 	private ContaPoupancaModel contaPoupancaModel;
 
+<<<<<<< HEAD
 	public ContaCorrenteModel() {
 	}
 
 	public ContaCorrenteModel(Date dataDeAbertura, BigDecimal saldoContaCorrente, Long conta, Agencia agencia, ContaPoupancaModel contaPoupancaModel) {
+=======
+	@OneToMany(mappedBy = "contaDeOrigem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<TransacaoModel> transacoesFeitas;
+
+	@OneToMany(mappedBy = "contaDeDestino", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<TransacaoModel> transacoesRecebidas;
+
+	public ContaCorrenteModel() {
+	}
+
+	public ContaCorrenteModel(Date dataDeAbertura, Double saldoContaCorrente, Long conta, Agencia agencia, ContaPoupancaModel contaPoupancaModel) {
+>>>>>>> featureTransacoes
 		super(dataDeAbertura, saldoContaCorrente);
 		this.conta = conta;
 		this.agencia = agencia;
@@ -57,6 +82,49 @@ public class ContaCorrenteModel extends ContaModel {
 		this.contaPoupancaModel = contaPoupancaModel;
 	}
 
+<<<<<<< HEAD
+=======
+
+	public void pagar(Double valor) {
+		if (this.getSaldoContaCorrente() < valor) {
+			this.getSaldoContaCorrente();
+		} else {
+			Double novoSaldo = this.getSaldoContaCorrente() - valor;
+			this.setSaldoContaCorrente(novoSaldo);
+		}
+	}
+
+	public void depositar(Double valor) {
+		Double novoSaldo = this.getSaldoContaCorrente() + valor;
+		this.setSaldoContaCorrente(novoSaldo);
+	}
+
+	public void trasnferir(ContaCorrenteModel contaDestino, Double valor) {
+		this.pagar(valor);
+		contaDestino.depositar(valor);
+	}
+
+//	@Transactional
+//	public void pagar(Double valor) {
+//		if (this.getSaldoContaCorrente() < valor) {
+//			this.getSaldoContaCorrente();
+//		} else {
+//			Double novoSaldo = this.getSaldoContaCorrente() - valor;
+//			this.setSaldoContaCorrente(novoSaldo);
+//		}
+//	}
+
+//	public void transferir(Double valor, ContaCorrente contaCorrente){
+//		if (this.saldo < valor) {
+//			this.saldo = saldo;
+//		} else {
+//			Double novoSaldo = saldo - valor;
+//			this.saldo = novoSaldo;
+//			contaCorrente.setSaldo(contaCorrente.getSaldo() + valor);
+//		}
+
+
+>>>>>>> featureTransacoes
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -70,4 +138,8 @@ public class ContaCorrenteModel extends ContaModel {
 	public int hashCode() {
 		return Objects.hash(super.hashCode(), conta, agencia, contaPoupancaModel);
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> featureTransacoes

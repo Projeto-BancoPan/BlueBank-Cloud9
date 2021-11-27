@@ -1,5 +1,6 @@
 package com.bancopan.cloud9.bluebank.superclasses;
 
+<<<<<<< HEAD
 import com.bancopan.cloud9.bluebank.enums.Agencia;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -18,6 +19,20 @@ import javax.persistence.TemporalType;
 
 @MappedSuperclass
 public abstract class ContaModel implements Serializable{
+=======
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Objects;
+
+@MappedSuperclass
+public abstract class ContaModel implements Serializable {
+>>>>>>> featureTransacoes
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,12 +47,21 @@ public abstract class ContaModel implements Serializable{
 	private Date dataDeEncerramento;
 
 	@Column
+<<<<<<< HEAD
 	private BigDecimal saldoContaCorrente = new BigDecimal(0.00).setScale(2);;
 
 	public ContaModel(){
 	}
 
 	public ContaModel(Date dataDeAbertura, BigDecimal saldoContaCorrente) {
+=======
+	private Double saldoContaCorrente;
+
+	public ContaModel() {
+	}
+
+	public ContaModel(Date dataDeAbertura, Double saldoContaCorrente) {
+>>>>>>> featureTransacoes
 		this.dataDeAbertura = dataDeAbertura;
 		this.saldoContaCorrente = saldoContaCorrente;
 	}
@@ -58,11 +82,19 @@ public abstract class ContaModel implements Serializable{
 		this.dataDeEncerramento = dataDeEncerramento;
 	}
 
+<<<<<<< HEAD
 	public BigDecimal getSaldoContaCorrente() {
 		return saldoContaCorrente;
 	}
 
 	public void setSaldoContaCorrente(BigDecimal saldoContaCorrente) {
+=======
+	public Double getSaldoContaCorrente() {
+		return saldoContaCorrente;
+	}
+
+	public void setSaldoContaCorrente(Double saldoContaCorrente) {
+>>>>>>> featureTransacoes
 		this.saldoContaCorrente = saldoContaCorrente;
 	}
 
@@ -78,4 +110,10 @@ public abstract class ContaModel implements Serializable{
 	public int hashCode() {
 		return Objects.hash(dataDeAbertura, dataDeEncerramento, saldoContaCorrente);
 	}
+<<<<<<< HEAD
 }
+=======
+
+
+}
+>>>>>>> featureTransacoes
