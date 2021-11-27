@@ -4,11 +4,11 @@ package com.bancopan.cloud9.bluebank.models;
 import com.bancopan.cloud9.bluebank.enums.Agencia;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
-@Entity(name="tb_contas_corrente")
+@Entity(name = "tb_contas_corrente")
 public class ContaCorrenteModel extends ContaModel {
 
 	@Id
@@ -23,12 +23,16 @@ public class ContaCorrenteModel extends ContaModel {
 	@JoinColumn(name = "conta_poupanca", unique = true)
 	private ContaPoupancaModel contaPoupancaModel;
 
+	@OneToMany(mappedBy = "contaDeOrigem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<TransacaoModel> transacoesFeitas;
 
+	@OneToMany(mappedBy = "contaDeDestino", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<TransacaoModel> transacoesRecebidas;
 
 	public ContaCorrenteModel() {
 	}
 
-	public ContaCorrenteModel(Date dataDeAbertura, BigDecimal saldoContaCorrente, Long conta, Agencia agencia, ContaPoupancaModel contaPoupancaModel) {
+	public ContaCorrenteModel(Date dataDeAbertura, Double saldoContaCorrente, Long conta, Agencia agencia, ContaPoupancaModel contaPoupancaModel) {
 		super(dataDeAbertura, saldoContaCorrente);
 		this.conta = conta;
 		this.agencia = agencia;
@@ -58,6 +62,46 @@ public class ContaCorrenteModel extends ContaModel {
 	public void setContaPoupancaModel(ContaPoupancaModel contaPoupancaModel) {
 		this.contaPoupancaModel = contaPoupancaModel;
 	}
+
+
+	public void pagar(Double valor) {
+		if (this.getSaldoContaCorrente() < valor) {
+			this.getSaldoContaCorrente();
+		} else {
+			Double novoSaldo = this.getSaldoContaCorrente() - valor;
+			this.setSaldoContaCorrente(novoSaldo);
+		}
+	}
+
+	public void depositar(Double valor) {
+		Double novoSaldo = this.getSaldoContaCorrente() + valor;
+		this.setSaldoContaCorrente(novoSaldo);
+	}
+
+	public void trasnferir(ContaCorrenteModel contaDestino, Double valor) {
+		this.pagar(valor);
+		contaDestino.depositar(valor);
+	}
+
+//	@Transactional
+//	public void pagar(Double valor) {
+//		if (this.getSaldoContaCorrente() < valor) {
+//			this.getSaldoContaCorrente();
+//		} else {
+//			Double novoSaldo = this.getSaldoContaCorrente() - valor;
+//			this.setSaldoContaCorrente(novoSaldo);
+//		}
+//	}
+
+//	public void transferir(Double valor, ContaCorrente contaCorrente){
+//		if (this.saldo < valor) {
+//			this.saldo = saldo;
+//		} else {
+//			Double novoSaldo = saldo - valor;
+//			this.saldo = novoSaldo;
+//			contaCorrente.setSaldo(contaCorrente.getSaldo() + valor);
+//		}
+
 
 	@Override
 	public boolean equals(Object o) {

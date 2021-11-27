@@ -7,12 +7,11 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
 @MappedSuperclass
-public abstract class ContaModel implements Serializable{
+public abstract class ContaModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,12 +26,12 @@ public abstract class ContaModel implements Serializable{
 	private Date dataDeEncerramento;
 
 	@Column
-	private BigDecimal saldoContaCorrente = new BigDecimal(0.00).setScale(2);;
+	private Double saldoContaCorrente;
 
-	public ContaModel(){
+	public ContaModel() {
 	}
 
-	public ContaModel(Date dataDeAbertura, BigDecimal saldoContaCorrente) {
+	public ContaModel(Date dataDeAbertura, Double saldoContaCorrente) {
 		this.dataDeAbertura = dataDeAbertura;
 		this.saldoContaCorrente = saldoContaCorrente;
 	}
@@ -53,36 +52,13 @@ public abstract class ContaModel implements Serializable{
 		this.dataDeEncerramento = dataDeEncerramento;
 	}
 
-	public BigDecimal getSaldoContaCorrente() {
+	public Double getSaldoContaCorrente() {
 		return saldoContaCorrente;
 	}
 
-	public void setSaldoContaCorrente(BigDecimal saldoContaCorrente) {
+	public void setSaldoContaCorrente(Double saldoContaCorrente) {
 		this.saldoContaCorrente = saldoContaCorrente;
 	}
-
-
-	public void depositar(BigDecimal valorPagamento) {
-
-		saldoContaCorrente = saldoContaCorrente.add(valorPagamento) ;
-
-	}
-
-	public void pagar(BigDecimal valorPagamento) {
-
-		saldoContaCorrente = saldoContaCorrente.subtract(valorPagamento);
-
-	}
-
-	public void transferir(ContaCorrenteModel contaDestino,BigDecimal valorPagamento) {
-
-		this.pagar(valorPagamento);
-		contaDestino.depositar(valorPagamento);
-
-	}
-
-
-
 
 	@Override
 	public boolean equals(Object o) {
@@ -96,4 +72,6 @@ public abstract class ContaModel implements Serializable{
 	public int hashCode() {
 		return Objects.hash(dataDeAbertura, dataDeEncerramento, saldoContaCorrente);
 	}
+
+
 }
