@@ -1,38 +1,20 @@
-package com.bancopan.cloud9.bluebank.superclasses;
+package com.bancopan.cloud9.bluebank.models;
 
-<<<<<<< HEAD
-import com.bancopan.cloud9.bluebank.enums.Agencia;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+
 import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @MappedSuperclass
 public abstract class ContaModel implements Serializable{
-=======
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Objects;
-
-@MappedSuperclass
-public abstract class ContaModel implements Serializable {
->>>>>>> featureTransacoes
 
 	private static final long serialVersionUID = 1L;
 
@@ -47,23 +29,14 @@ public abstract class ContaModel implements Serializable {
 	private Date dataDeEncerramento;
 
 	@Column
-<<<<<<< HEAD
-	private BigDecimal saldoContaCorrente = new BigDecimal(0.00).setScale(2);;
+	private Double saldoDaConta;
 
 	public ContaModel(){
 	}
 
-	public ContaModel(Date dataDeAbertura, BigDecimal saldoContaCorrente) {
-=======
-	private Double saldoContaCorrente;
-
-	public ContaModel() {
-	}
-
-	public ContaModel(Date dataDeAbertura, Double saldoContaCorrente) {
->>>>>>> featureTransacoes
+	public ContaModel(Date dataDeAbertura, Double saldoDaConta) {
 		this.dataDeAbertura = dataDeAbertura;
-		this.saldoContaCorrente = saldoContaCorrente;
+		this.saldoDaConta = saldoDaConta;
 	}
 
 	public Date getDataDeAbertura() {
@@ -82,20 +55,12 @@ public abstract class ContaModel implements Serializable {
 		this.dataDeEncerramento = dataDeEncerramento;
 	}
 
-<<<<<<< HEAD
-	public BigDecimal getSaldoContaCorrente() {
-		return saldoContaCorrente;
+	public Double getSaldoDaConta() {
+		return saldoDaConta;
 	}
 
-	public void setSaldoContaCorrente(BigDecimal saldoContaCorrente) {
-=======
-	public Double getSaldoContaCorrente() {
-		return saldoContaCorrente;
-	}
-
-	public void setSaldoContaCorrente(Double saldoContaCorrente) {
->>>>>>> featureTransacoes
-		this.saldoContaCorrente = saldoContaCorrente;
+	public void setSaldoDaConta(Double saldoDaConta) {
+		this.saldoDaConta = saldoDaConta;
 	}
 
 	@Override
@@ -103,17 +68,13 @@ public abstract class ContaModel implements Serializable {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		ContaModel that = (ContaModel) o;
-		return dataDeAbertura.equals(that.dataDeAbertura) && dataDeEncerramento.equals(that.dataDeEncerramento) && saldoContaCorrente.equals(that.saldoContaCorrente);
+		return dataDeAbertura.equals(that.dataDeAbertura) && dataDeEncerramento.equals(that.dataDeEncerramento) && saldoDaConta.equals(that.saldoDaConta);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(dataDeAbertura, dataDeEncerramento, saldoContaCorrente);
+		return Objects.hash(dataDeAbertura, dataDeEncerramento, saldoDaConta);
 	}
-<<<<<<< HEAD
-}
-=======
 
 
 }
->>>>>>> featureTransacoes

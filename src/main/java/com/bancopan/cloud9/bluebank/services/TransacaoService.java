@@ -26,7 +26,7 @@ public class TransacaoService {
 
         ContaCorrenteModel contaCorrenteModel = repository.findById(idContaOrigem).get();
 
-        if (contaCorrenteModel.getSaldoContaCorrente() < valorPagamento) {
+        if (contaCorrenteModel.getSaldoDaConta() < valorPagamento) {
             return null;
         }
 
