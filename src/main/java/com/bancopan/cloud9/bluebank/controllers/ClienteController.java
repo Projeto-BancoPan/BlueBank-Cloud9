@@ -30,6 +30,7 @@ public class ClienteController {
     @GetMapping(value = "/clientes")
     @ApiOperation(value = "Retorna uma lista de todos os clientes")
     public ResponseEntity<List<ClienteModel>> getAllClienteModel() {
+
         return ResponseEntity.ok(repository.findAll());
     }
 
