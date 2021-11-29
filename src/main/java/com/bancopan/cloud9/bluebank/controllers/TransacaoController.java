@@ -5,6 +5,7 @@ import com.bancopan.cloud9.bluebank.models.ContaCorrenteModel;
 import com.bancopan.cloud9.bluebank.models.TransacaoModel;
 import com.bancopan.cloud9.bluebank.repositories.ContaCorrenteRepository;
 import com.bancopan.cloud9.bluebank.repositories.TransacaoRepository;
+import com.bancopan.cloud9.bluebank.services.ContaCorrenteService;
 import com.bancopan.cloud9.bluebank.services.TransacaoService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ public class TransacaoController {
     @Autowired
     private TransacaoService transacaoService;
 
+    @Autowired
+    private ContaCorrenteRepository contaCorrenteRepository;
+
+    @Autowired
+    private ContaCorrenteService contaCorrenteService;
+
     @GetMapping(value = "/transacoes")
     @ApiOperation(value = "Retorna uma lista com todas as transacoes")
     public ResponseEntity<List<TransacaoModel>> getAllClienteModel() {
@@ -35,7 +42,7 @@ public class TransacaoController {
     @ApiOperation(value = "Salvar nova transacao")
     public ResponseEntity<TransacaoModel> transacaoPagar(@RequestBody @PathVariable("conta") Long contaDeOrigem,
                                                          @PathVariable("valorDaTransacao") Double valorDaTransacao) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(transacaoService.pagar(valorDaTransacao, contaDeOrigem));
+        return ResponseEntity.status(HttpStatus.CREATED).body(transacaoService.pagar(contaDeOrigem, valorDaTransacao));
     }
 
     @PostMapping(value = "/transacaoDepositar/{conta}/{valorDaTransacao}")
@@ -45,5 +52,18 @@ public class TransacaoController {
                    return ResponseEntity.status(HttpStatus.CREATED).body(transacaoService.depositar(valorDaTransacao, contaDeOrigem));
     }
 
+    @PostMapping(value = "/transacao/{conta}/{valorDaTransacao}/{contaT}")
+    @ApiOperation(value = "Salvar nova transacao")
+    public ResponseEntity<TransacaoModel> transacaoTranfereir(@RequestBody @PathVariable("conta") Long contaDeOrigem,
+                                                              @PathVariable("valorDaTransacao") Double valorDaTransacao, @RequestBody @PathVariable("contaT") Long contaDeDestino) {
+
+
+
+        if(contaDeDestino.equals(contaDeOrigem) || !contaCorrenteRepository.existsById(contaDeOrigem) || !contaCorrenteRepository.existsById(contaDeDestino) || contaCorrenteService.buscar(contaDeOrigem).getSaldoDaConta() < valorDaTransacao){
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(transacaoService.transferir(contaDeOrigem,valorDaTransacao, contaDeDestino));
+    }
 
 }
