@@ -3,6 +3,7 @@ package com.bancopan.cloud9.bluebank.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +29,13 @@ public class ContaCorrenteController {
 	private ContaCorrenteRepository repository;
 	
 	@GetMapping("/listar")
+	@ApiOperation(value = "Listar todos os clientes")
 	public ResponseEntity<List<ContaCorrenteModel>> getAllContas() {
 		return ResponseEntity.status(HttpStatus.OK).body(repository.findAll());
 	}
 	
 	@GetMapping("/lista/{numeroConta}")
+	@ApiOperation(value = "Localiza o cliente pelo número da conta")
 	public ResponseEntity consultarConta(@PathVariable("{numeroConta}") Long codigo) {
 		return repository.findById(codigo)
 				.map(record -> ResponseEntity.ok().body(record))
@@ -40,11 +43,13 @@ public class ContaCorrenteController {
 	}
 	
 	@PostMapping(path = "/salvar")
+	@ApiOperation(value = "Cadastra um novo cliente")
 	public ResponseEntity<ContaCorrenteModel> salvarConta(@RequestBody ContaCorrenteModel conta){
 		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(conta));
 	}
 	
 	@DeleteMapping(path = "/{numeroConta}")
+	@ApiOperation(value = "Deleta um cliente")
 	public ResponseEntity<HttpStatus> deleteConta(@PathVariable("{numeroConta}") Long codigo) {
 	       try { 
 	    	   Optional<ContaCorrenteModel> conta = repository.findById(codigo);
@@ -59,6 +64,7 @@ public class ContaCorrenteController {
 	  }
 	
 	@PutMapping(path = "/atualizar")
+	@ApiOperation(value = "Atualiza os dados de um cliente")
     public ResponseEntity<ContaCorrenteModel> atualizarCliente(@RequestBody ContaCorrenteModel conta) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(repository.save(conta));
         	
