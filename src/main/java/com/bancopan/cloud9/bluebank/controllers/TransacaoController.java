@@ -59,7 +59,9 @@ public class TransacaoController {
 
 
 
-        if(contaDeDestino.equals(contaDeOrigem) || !contaCorrenteRepository.existsById(contaDeOrigem) || !contaCorrenteRepository.existsById(contaDeDestino) || contaCorrenteService.buscar(contaDeOrigem).getSaldoDaConta() < valorDaTransacao){
+        if(contaDeDestino.equals(contaDeOrigem) || !contaCorrenteRepository.existsById(contaDeOrigem)
+                || !contaCorrenteRepository.existsById(contaDeDestino)
+                || contaCorrenteService.buscar(contaDeOrigem).getSaldoDaConta() < valorDaTransacao){
             return ResponseEntity.badRequest().build();
         }
 

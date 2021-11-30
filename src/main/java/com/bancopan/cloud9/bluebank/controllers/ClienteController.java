@@ -59,14 +59,14 @@ public class ClienteController {
 
     @GetMapping(value = "/tipo_cliente/{tipoCliente}")
     @ApiOperation(value = "Retorna um cliente pelo tipo")
-    public ResponseEntity<List<ClienteModel>> filtroId(@PathVariable TipoCliente tipoCliente){
+    public ResponseEntity<List<ClienteModel>> filtroPorTipo( String tipoCliente){
         return ResponseEntity.ok(repository.procuraTipoCliente(tipoCliente));
     }
 
     @GetMapping(value = "/tipo_cliente_dto/{tipoCliente}")
     @ApiOperation(value = "Retorna uma lista de clientes pelo tipo com filtro de informações")
-    public ResponseEntity<List<ClienteTipoDTO>> filtroporTipoDTO(@PathVariable TipoCliente tipoCliente){
-        List<ClienteModel> listaClienteModel = repository.findAll();
+    public ResponseEntity<List<ClienteTipoDTO>> filtroPorTipoDTO(@PathVariable String tipoCliente){
+        List<ClienteModel> listaClienteModel = repository.procuraTipoCliente(tipoCliente);
         List<ClienteTipoDTO> listaClienteTipoDTO = ClienteTipoDTO.converteParaDTO(listaClienteModel);
         return ResponseEntity.ok(listaClienteTipoDTO);
     }
