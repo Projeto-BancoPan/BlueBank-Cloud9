@@ -43,14 +43,14 @@ public class TransacaoController {
     }
 
     @PostMapping(value = "/transacaoDepositar/{conta}/{valorDaTransacao}")
-    @ApiOperation(value = " Efetua uma transferência para outra conta")
+    @ApiOperation(value = "Efetua um depósito")
     public ResponseEntity<TransacaoModel> transacaoDepositar(@RequestBody @PathVariable("conta") Long contaDeOrigem,
                                                          @PathVariable("valorDaTransacao") Double valorDaTransacao) {
         return ResponseEntity.status(HttpStatus.CREATED).body(transacaoService.depositar(valorDaTransacao, contaDeOrigem));
     }
 
     @PostMapping(value = "/transacao/{conta}/{valorDaTransacao}/{contaT}")
-    @ApiOperation(value = "Efetua um Depósito")
+    @ApiOperation(value = "Efetua uma transferência para outra conta")
     public ResponseEntity<TransacaoModel> transacaoTranfereir(@RequestBody @PathVariable("conta") Long contaDeOrigem,
                                                               @PathVariable("valorDaTransacao") Double valorDaTransacao, @RequestBody @PathVariable("contaT") Long contaDeDestino) {
 
