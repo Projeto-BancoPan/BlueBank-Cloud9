@@ -1,41 +1,57 @@
 package com.bancopan.cloud9.bluebank.models;
 
 import com.bancopan.cloud9.bluebank.enums.Agencia;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "tb_contas_corrente")
-public class ContaCorrenteModel extends ContaModel {
+public class ContaCorrenteModel implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long conta;
 
     @Column
     @Enumerated(EnumType.STRING)
     private Agencia agencia;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "conta_poupanca", unique = true)
-    private ContaPoupancaModel contaPoupancaModel;
+    @Column
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date dataDeAbertura = new java.sql.Date(System.currentTimeMillis());
+
+    @Column
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date dataDeEncerramento;
+
+    @Column
+    private Double saldoDaConta;
 
     @OneToMany(mappedBy = "contaDeOrigem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<TransacaoModel> transacoesFeitas;
 
     @OneToMany(mappedBy = "contaDeDestino", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<TransacaoModel> transacoesRecebidas;
 
     public ContaCorrenteModel() {
     }
 
-    public ContaCorrenteModel(Date dataDeAbertura, Double saldoDaConta, Long conta, Agencia agencia, ContaPoupancaModel contaPoupancaModel) {
-        super(dataDeAbertura, saldoDaConta);
+    public ContaCorrenteModel(Long conta, Agencia agencia, Date dataDeAbertura, Double saldoDaConta) {
         this.conta = conta;
         this.agencia = agencia;
-        this.contaPoupancaModel = contaPoupancaModel;
+        this.dataDeAbertura = dataDeAbertura;
+        this.saldoDaConta = saldoDaConta;
     }
 
     public Long getConta() {
@@ -54,16 +70,47 @@ public class ContaCorrenteModel extends ContaModel {
         this.agencia = agencia;
     }
 
-    public ContaPoupancaModel getContaPoupancaModel() {
-        return contaPoupancaModel;
+    public Date getDataDeAbertura() {
+        return dataDeAbertura;
     }
 
-    public void setContaPoupancaModel(ContaPoupancaModel contaPoupancaModel) {
-        this.contaPoupancaModel = contaPoupancaModel;
+    public void setDataDeAbertura(Date dataDeAbertura) {
+        this.dataDeAbertura = dataDeAbertura;
     }
 
+    public Date getDataDeEncerramento() {
+        return dataDeEncerramento;
+    }
 
-    public void pagar(Double valor) {
+    public void setDataDeEncerramento(Date dataDeEncerramento) {
+        this.dataDeEncerramento = dataDeEncerramento;
+    }
+
+    public Double getSaldoDaConta() {
+        return saldoDaConta;
+    }
+
+    public void setSaldoDaConta(Double saldoDaConta) {
+        this.saldoDaConta = saldoDaConta;
+    }
+
+    public List<TransacaoModel> getTransacoesFeitas() {
+        return transacoesFeitas;
+    }
+
+    public void setTransacoesFeitas(List<TransacaoModel> transacoesFeitas) {
+        this.transacoesFeitas = transacoesFeitas;
+    }
+
+//    public List<TransacaoModel> getTransacoesRecebidas() {
+//        return transacoesRecebidas;
+//    }
+//
+//    public void setTransacoesRecebidas(List<TransacaoModel> transacoesRecebidas) {
+//        this.transacoesRecebidas = transacoesRecebidas;
+//    }
+
+    public void sacar(Double valor) {
         if (this.getSaldoDaConta() < valor) {
             this.getSaldoDaConta();
         } else {
@@ -77,42 +124,16 @@ public class ContaCorrenteModel extends ContaModel {
         this.setSaldoDaConta(novoSaldo);
     }
 
-    public void trasnferir( ContaCorrenteModel contaDestino, Double valor) {
-        this.pagar(valor);
-       contaDestino.depositar(valor);
-    }
-
-//	@Transactional
-//	public void pagar(Double valor) {
-//		if (this.getSaldoContaCorrente() < valor) {
-//			this.getSaldoContaCorrente();
-//		} else {
-//			Double novoSaldo = this.getSaldoContaCorrente() - valor;
-//			this.setSaldoContaCorrente(novoSaldo);
-//		}
-//	}
-
-//	public void transferir(Double valor, ContaCorrente contaCorrente){
-//		if (this.saldo < valor) {
-//			this.saldo = saldo;
-//		} else {
-//			Double novoSaldo = saldo - valor;
-//			this.saldo = novoSaldo;
-//			contaCorrente.setSaldo(contaCorrente.getSaldo() + valor);
-//		}
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         ContaCorrenteModel that = (ContaCorrenteModel) o;
-        return conta.equals(that.conta) && agencia == that.agencia && contaPoupancaModel.equals(that.contaPoupancaModel);
+        return conta.equals(that.conta) && agencia == that.agencia && dataDeAbertura.equals(that.dataDeAbertura) && dataDeEncerramento.equals(that.dataDeEncerramento) && saldoDaConta.equals(that.saldoDaConta) && transacoesFeitas.equals(that.transacoesFeitas);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), conta, agencia, contaPoupancaModel);
+        return Objects.hash(conta, agencia, dataDeAbertura, dataDeEncerramento, saldoDaConta, transacoesFeitas);
     }
 }

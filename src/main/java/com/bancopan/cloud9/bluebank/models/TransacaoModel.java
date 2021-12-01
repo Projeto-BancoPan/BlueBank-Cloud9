@@ -1,5 +1,6 @@
 package com.bancopan.cloud9.bluebank.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
@@ -18,10 +19,12 @@ public class TransacaoModel implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "conta_de_origem")
+    @JsonBackReference
     private ContaCorrenteModel contaDeOrigem;
 
     @ManyToOne
     @JoinColumn(name = "conta_de_destino")
+    @JsonBackReference
     private ContaCorrenteModel contaDeDestino;
 
     @Column
@@ -82,16 +85,6 @@ public class TransacaoModel implements Serializable {
     public void setValorDaTransacao(Double valorDaTransacao) {
         this.valorDaTransacao = valorDaTransacao;
     }
-
-//    public void pagar(BigDecimal valorPagamento) {
-//        ContaCorrenteModel contaCorrenteOrigem = new ContaCorrenteModel();
-//        if(contaCorrenteOrigem.getSaldoContaCorrente().compareTo(valorPagamento) == 1){
-//            contaCorrenteOrigem.getSaldoContaCorrente();
-//        }else{
-//            contaCorrenteOrigem.setSaldoContaCorrente(contaCorrenteOrigem.getSaldoContaCorrente().subtract(valorPagamento));
-//        }
-//    }
-
 
     @Override
     public boolean equals(Object o) {

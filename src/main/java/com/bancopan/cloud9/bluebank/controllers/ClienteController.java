@@ -1,8 +1,6 @@
 package com.bancopan.cloud9.bluebank.controllers;
 
-import com.bancopan.cloud9.bluebank.dtos.ClienteContatoDTO;
-import com.bancopan.cloud9.bluebank.dtos.ClienteEnderecoDTO;
-import com.bancopan.cloud9.bluebank.dtos.ClienteTipoDTO;
+import com.bancopan.cloud9.bluebank.dtos.*;
 import com.bancopan.cloud9.bluebank.enums.TipoCliente;
 import com.bancopan.cloud9.bluebank.models.ClienteModel;
 import com.bancopan.cloud9.bluebank.repositories.ClienteRepository;
@@ -29,17 +27,18 @@ public class ClienteController {
 
     @GetMapping(value = "/clientes")
     @ApiOperation(value = "Retorna uma lista de todos os clientes")
-    public ResponseEntity<List<ClienteModel>> getAllClienteModel() {
-
-        return ResponseEntity.ok(repository.findAll());
+    public ResponseEntity<List<ClienteModelDTO>> getAllClienteModel() {
+        List<ClienteModel> clienteModelList = repository.findAll();
+        List<ClienteModelDTO> clienteModelDTOList = ClienteModelDTO.converteParaDTO(clienteModelList);
+        return ResponseEntity.ok(clienteModelDTOList);
     }
 
     @GetMapping(value = "/cliente/{idCliente}")
     @ApiOperation(value = "Retorna um cliente pelo id")
-    public ResponseEntity<ClienteModel> consultarCliente(@PathVariable("idCliente") Long idCliente) {
-        return repository.findById(idCliente)
-                .map(record -> ResponseEntity.ok().body(record))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ClienteModelDTO> consultarCliente(@PathVariable("idCliente") Long idCliente) {
+        ClienteModel clienteModel = repository.getById(idCliente);
+        ClienteModelDTO clienteModelDTO = new ClienteModelDTO(clienteModel);
+        return ResponseEntity.ok(clienteModelDTO);
     }
 
     @GetMapping(value = "/cliente_endereco/{idCliente}")

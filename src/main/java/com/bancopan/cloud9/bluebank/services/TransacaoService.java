@@ -35,7 +35,7 @@ public class TransacaoService {
         TransacaoModel transacaoModel = new TransacaoModel();
         transacaoModel.setContaDeOrigem(contaCorrenteModel);
         transacaoModel.setValorDaTransacao(valorPagamento);
-        contaCorrenteModel.pagar(valorPagamento);
+        contaCorrenteModel.sacar(valorPagamento);
         return transacaoRepository.save(transacaoModel);
 
     }
@@ -64,7 +64,7 @@ public class TransacaoService {
 
         TransacaoModel transferencia = new TransacaoModel();
 
-        this.pagar(idContaOrigem,valorPagamento);
+        contaCorrenteOrigem.sacar(valorPagamento);
 
         transferencia.setContaDeOrigem(contaCorrenteOrigem);
         transferencia.setValorDaTransacao(valorPagamento);

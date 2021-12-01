@@ -1,7 +1,5 @@
 package com.bancopan.cloud9.bluebank.controllers;
 
-import com.bancopan.cloud9.bluebank.models.ClienteModel;
-import com.bancopan.cloud9.bluebank.models.ContaCorrenteModel;
 import com.bancopan.cloud9.bluebank.models.TransacaoModel;
 import com.bancopan.cloud9.bluebank.repositories.ContaCorrenteRepository;
 import com.bancopan.cloud9.bluebank.repositories.TransacaoRepository;
@@ -13,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -38,9 +35,9 @@ public class TransacaoController {
         return ResponseEntity.ok(transacaoRepository.findAll());
     }
 
-    @PostMapping(value = "/transacao/{conta}/{valorDaTransacao}")
+    @PostMapping(value = "/transacao/{conta_de_origem}/{valorDaTransacao}")
     @ApiOperation(value = "Efetua um pagamento")
-    public ResponseEntity<TransacaoModel> transacaoPagar(@RequestBody @PathVariable("conta") Long contaDeOrigem,
+    public ResponseEntity<TransacaoModel> transacaoPagar(@RequestBody @PathVariable("conta_de_origem") Long contaDeOrigem,
                                                          @PathVariable("valorDaTransacao") Double valorDaTransacao) {
         return ResponseEntity.status(HttpStatus.CREATED).body(transacaoService.pagar(contaDeOrigem, valorDaTransacao));
     }
@@ -49,7 +46,7 @@ public class TransacaoController {
     @ApiOperation(value = " Efetua uma transferência para outra conta")
     public ResponseEntity<TransacaoModel> transacaoDepositar(@RequestBody @PathVariable("conta") Long contaDeOrigem,
                                                          @PathVariable("valorDaTransacao") Double valorDaTransacao) {
-                   return ResponseEntity.status(HttpStatus.CREATED).body(transacaoService.depositar(valorDaTransacao, contaDeOrigem));
+        return ResponseEntity.status(HttpStatus.CREATED).body(transacaoService.depositar(valorDaTransacao, contaDeOrigem));
     }
 
     @PostMapping(value = "/transacao/{conta}/{valorDaTransacao}/{contaT}")

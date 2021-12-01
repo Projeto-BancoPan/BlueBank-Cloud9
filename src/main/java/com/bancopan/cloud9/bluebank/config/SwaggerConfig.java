@@ -33,11 +33,11 @@ public class SwaggerConfig {
 
     private ApiInfo metaInfo() {
         ApiInfo apiInfo = new ApiInfo(
-                "BLUEBANK BANCO FICTÍCIO",
-                "API REST SISTEMA BANCÁRIO",
+                "BLUEBANK - SQUAD CLOUD9",
+                "API REST DE UM SISTEMA BANCÁRIO",
                 "1.0",
                 "terms of service",
-                new Contact("João, Marcel, Leandro e Luiz", "github.com/leandrobarr", "leandrobarr@yahoo.com.br"),
+                new Contact("JOÃO PEDRO MARQUES, LEANDRO BARROS, LUIZ NASCIMENTO, MARCEL PINOTTI", " github.com/joaopedro-marques, github.com/leandrobarr, github.com/luizns, github.com/marcelpinotti", " "),
                 "Apache License Version 2.0",
                 "https://www.apache.org/license.html", new ArrayList<VendorExtension>()
         );

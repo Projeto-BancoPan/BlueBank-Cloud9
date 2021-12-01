@@ -34,9 +34,9 @@ public class ContaCorrenteController {
 		return ResponseEntity.status(HttpStatus.OK).body(repository.findAll());
 	}
 	
-	@GetMapping("/lista/{numeroConta}")
+	@GetMapping("/lista/{conta}")
 	@ApiOperation(value = "Localiza o cliente pelo número da conta")
-	public ResponseEntity consultarConta(@PathVariable("{numeroConta}") Long codigo) {
+	public ResponseEntity consultarConta(@PathVariable("conta") Long codigo) {
 		return repository.findById(codigo)
 				.map(record -> ResponseEntity.ok().body(record))
 				.orElse(ResponseEntity.notFound().build());
@@ -48,9 +48,9 @@ public class ContaCorrenteController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(conta));
 	}
 	
-	@DeleteMapping(path = "/{numeroConta}")
+	@DeleteMapping(path = "/{conta}")
 	@ApiOperation(value = "Deleta um cliente")
-	public ResponseEntity<HttpStatus> deleteConta(@PathVariable("{numeroConta}") Long codigo) {
+	public ResponseEntity<HttpStatus> deleteConta(@PathVariable("{conta}") Long codigo) {
 	       try { 
 	    	   Optional<ContaCorrenteModel> conta = repository.findById(codigo);
 	    	   if (conta.isPresent()) {
