@@ -4,37 +4,35 @@ import com.bancopan.cloud9.bluebank.enums.TipoCliente;
 import com.bancopan.cloud9.bluebank.models.ClienteModel;
 import com.bancopan.cloud9.bluebank.models.EnderecoModel;
 
-public class ClienteContatoDTO {
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class ConsultaClienteEnderecoDTO {
 
     private Long idCliente;
     private TipoCliente tipoCliente;
     private String nome;
-    private String email;
-    private String telefone;
+    private EnderecoModel endereco;
 
-    public ClienteContatoDTO(ClienteModel clienteModel) {
+    public ConsultaClienteEnderecoDTO(ClienteModel clienteModel) {
         this.idCliente = clienteModel.getIdCliente();
         this.tipoCliente = clienteModel.getTipoCliente();
         this.nome = clienteModel.getNome();
-        this.email = clienteModel.getEmail();
-        this.telefone = clienteModel.getTelefone();
+        this.endereco = clienteModel.getEnderecoModel();
     }
 
     public Long getIdCliente() {
         return idCliente;
     }
 
-    public TipoCliente getTipoCliente() { return tipoCliente;}
+    public TipoCliente getTipoCliente() { return tipoCliente; }
 
     public String getNome() {
         return nome;
     }
 
-    public String getEmail() {
-        return email;
+    public EnderecoModel getEndereco() {
+        return endereco;
     }
 
-    public String getTelefone() {
-        return telefone;
-    }
 }
