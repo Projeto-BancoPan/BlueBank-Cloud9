@@ -3,6 +3,9 @@ package com.bancopan.cloud9.bluebank.models;
 import com.bancopan.cloud9.bluebank.enums.Estado;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,23 +20,37 @@ public class EnderecoModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEndereco;
 
-    @Column(nullable = false)
+    @Column
+    @NotBlank
     private String logradouro;
-    @Column(nullable = false)
+
+    @Column
+    @NotBlank
     private Integer numero;
-    @Column(nullable = false)
+
+    @Column
+    @NotNull
     private String complemento;
-    @Column(nullable = false)
+
+    @Column
+    @NotBlank
     private String bairro;
-    @Column(nullable = false)
+
+    @Column
+    @NotBlank
+    @Pattern(regexp = "\\d{5}-\\d{3}", message = "O CEP deve seguir o seguinte formato 00000-000, somente números!")
     private String cep;
-    @Column(nullable = false)
+
+    @Column
+    @NotBlank
     private String cidade;
-    @Column(nullable = false)
+
+    @Column
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Estado estado;
 
-    public EnderecoModel(){
+    public EnderecoModel() {
     }
 
     public EnderecoModel(Long idEndereco, String logradouro, Integer numero, String complemento, String bairro, String cep, String cidade, Estado estado) {
@@ -116,11 +133,11 @@ public class EnderecoModel implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EnderecoModel that = (EnderecoModel) o;
-        return idEndereco.equals(that.idEndereco) && logradouro.equals(that.logradouro) && numero.equals(that.numero) && complemento.equals(that.complemento) && bairro.equals(that.bairro) && cep.equals(that.cep) && cidade.equals(that.cidade) && estado.equals(that.estado);
+        return idEndereco.equals(that.idEndereco);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idEndereco, logradouro, numero, complemento, bairro, cep, cidade, estado);
+        return Objects.hash(idEndereco);
     }
 }

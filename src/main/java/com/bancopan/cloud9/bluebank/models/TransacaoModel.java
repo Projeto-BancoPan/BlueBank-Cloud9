@@ -8,7 +8,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity(name = "tb_transacoes")
+@Entity
+@Table(name = "tb_transacoes")
 public class TransacaoModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -91,11 +92,11 @@ public class TransacaoModel implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TransacaoModel that = (TransacaoModel) o;
-        return numeroDaTransacao.equals(that.numeroDaTransacao) && contaDeOrigem.equals(that.contaDeOrigem) && contaDeDestino.equals(that.contaDeDestino) && dataDaTransacao.equals(that.dataDaTransacao) && valorDaTransacao.equals(that.valorDaTransacao);
+        return Objects.equals(numeroDaTransacao, that.numeroDaTransacao) && Objects.equals(contaDeOrigem, that.contaDeOrigem) && Objects.equals(contaDeDestino, that.contaDeDestino);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(numeroDaTransacao, contaDeOrigem, contaDeDestino, dataDaTransacao, valorDaTransacao);
+        return Objects.hash(numeroDaTransacao, contaDeOrigem, contaDeDestino);
     }
 }

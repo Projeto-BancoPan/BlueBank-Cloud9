@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,13 +57,13 @@ public class ClienteController {
 
     @GetMapping(value = "/tipo_cliente/{tipoCliente}")
     @ApiOperation(value = "Retorna uma lista de clientes pelo tipo")
-    public ResponseEntity<List<ClienteModel>> filtroPorTipo( String tipoCliente){
+    public ResponseEntity<List<ClienteModel>> filtroPorTipo(String tipoCliente) {
         return ResponseEntity.ok(repository.procuraTipoCliente(tipoCliente));
     }
 
     @GetMapping(value = "/tipo_cliente_dto/{tipoCliente}")
     @ApiOperation(value = "Retorna uma lista de clientes pelo tipo com endereços e contatos")
-    public ResponseEntity<List<ConsultaClienteTipoDTO>> filtroPorTipoDTO(@PathVariable String tipoCliente){
+    public ResponseEntity<List<ConsultaClienteTipoDTO>> filtroPorTipoDTO(@PathVariable String tipoCliente) {
         List<ClienteModel> listaClienteModel = repository.procuraTipoCliente(tipoCliente);
         List<ConsultaClienteTipoDTO> listaConsultaClienteTipoDTO = ConsultaClienteTipoDTO.converteParaDTO(listaClienteModel);
         return ResponseEntity.ok(listaConsultaClienteTipoDTO);
@@ -70,7 +71,7 @@ public class ClienteController {
 
     @PostMapping(value = "/cliente/salvar")
     @ApiOperation(value = "Salva um novo cliente")
-    public ResponseEntity<ClienteModel> salvarCliente(@RequestBody CriarClienteDTO criarClienteDTO) {
+    public ResponseEntity<ClienteModel> salvarCliente(@Valid @RequestBody CriarClienteDTO criarClienteDTO) {
         ClienteModel clienteModel = CriarClienteDTO.converteParaModel(criarClienteDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(clienteModel));
     }
@@ -79,19 +80,21 @@ public class ClienteController {
     @ApiOperation(value = "Deleta um cliente")
     public ResponseEntity<HttpStatus> deleteCliente(@PathVariable("idCliente") Long idCliente) {
         try {
-           Optional<ClienteModel> cliente = repository.findById(idCliente);
-           if (cliente.isPresent()) {
-               repository.delete(cliente.get());
-           }
-           return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
+            Optional<ClienteModel> cliente = repository.findById(idCliente);
+            if (cliente.isPresent()) {
+                repository.delete(cliente.get());
+            }
+            return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
-           return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping(value = "/cliente/atualizar")
     @ApiOperation(value = "Atualiza os dados de um cliente")
-    public ResponseEntity<ClienteModel> atualizarCliente(@RequestBody ClienteModel cliente) {
+    public ResponseEntity<ClienteModel> atualizarCliente(@Valid @RequestBody ClienteModel cliente) {
+
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(repository.save(cliente));
+
     }
 }

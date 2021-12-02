@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +36,7 @@ public class ContaCorrenteModel implements Serializable {
     private Date dataDeEncerramento;
 
     @Column
+    @NotNull
     private Double saldoDaConta;
 
     @OneToMany(mappedBy = "contaDeOrigem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -129,11 +132,11 @@ public class ContaCorrenteModel implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContaCorrenteModel that = (ContaCorrenteModel) o;
-        return conta.equals(that.conta) && agencia == that.agencia && dataDeAbertura.equals(that.dataDeAbertura) && dataDeEncerramento.equals(that.dataDeEncerramento) && saldoDaConta.equals(that.saldoDaConta) && transacoesFeitas.equals(that.transacoesFeitas);
+        return Objects.equals(conta, that.conta);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(conta, agencia, dataDeAbertura, dataDeEncerramento, saldoDaConta, transacoesFeitas);
+        return Objects.hash(conta);
     }
 }

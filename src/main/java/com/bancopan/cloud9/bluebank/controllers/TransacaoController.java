@@ -11,10 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/transacoes")
 public class TransacaoController {
 
     @Autowired
@@ -29,40 +30,51 @@ public class TransacaoController {
     @Autowired
     private ContaCorrenteService contaCorrenteService;
 
-    @GetMapping(value = "/transacoes")
+    @GetMapping
     @ApiOperation(value = "Retorna uma lista com todas as transacoes")
     public ResponseEntity<List<TransacaoModel>> getAllClienteModel() {
         return ResponseEntity.ok(transacaoRepository.findAll());
     }
 
-    @PostMapping(value = "/transacao/{conta_de_origem}/{valorDaTransacao}")
-    @ApiOperation(value = "Efetua um pagamento")
-    public ResponseEntity<TransacaoModel> transacaoPagar(@RequestBody @PathVariable("conta_de_origem") Long contaDeOrigem,
-                                                         @PathVariable("valorDaTransacao") Double valorDaTransacao) {
+
+    @PostMapping(value = "/{conta_de_origem}/pagar/{valor_transacao}")
+    @ApiOperation(value = "Efetuar um pagamento")
+    public ResponseEntity<TransacaoModel> transacaoPagar(@Valid @RequestBody @PathVariable("conta_de_origem") Long contaDeOrigem,
+                                                         @PathVariable("valor_transacao") Double valorDaTransacao) {
+        if (!contaCorrenteRepository.existsById(contaDeOrigem)) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(transacaoService.pagar(contaDeOrigem, valorDaTransacao));
     }
 
-    @PostMapping(value = "/transacaoDepositar/{conta}/{valorDaTransacao}")
-    @ApiOperation(value = "Efetua um depósito")
-    public ResponseEntity<TransacaoModel> transacaoDepositar(@RequestBody @PathVariable("conta") Long contaDeOrigem,
-                                                         @PathVariable("valorDaTransacao") Double valorDaTransacao) {
+
+    @PostMapping(value = "/{conta_de_destino}/depositar/{valor_transacao}")
+    @ApiOperation(value = "Efetuar um depósito")
+    public ResponseEntity<TransacaoModel> transacaoDepositar(@Valid @RequestBody @PathVariable("conta_de_destino") Long contaDeOrigem,
+                                                             @PathVariable("valor_transacao") Double valorDaTransacao) {
+
+        if (!contaCorrenteRepository.existsById(contaDeOrigem)
+                || contaCorrenteService.buscar(contaDeOrigem).getSaldoDaConta() < valorDaTransacao) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(transacaoService.depositar(valorDaTransacao, contaDeOrigem));
     }
 
-    @PostMapping(value = "/transacao/{conta}/{valorDaTransacao}/{contaT}")
+
+    @PostMapping(value = "/{conta_de_origem}/transferir/{valor_transacao}/{conta_de_destino}")
     @ApiOperation(value = "Efetua uma transferência para outra conta")
-    public ResponseEntity<TransacaoModel> transacaoTranfereir(@RequestBody @PathVariable("conta") Long contaDeOrigem,
-                                                              @PathVariable("valorDaTransacao") Double valorDaTransacao, @RequestBody @PathVariable("contaT") Long contaDeDestino) {
+    public ResponseEntity<TransacaoModel> transacaoTranferir(@Valid @RequestBody @PathVariable("conta_de_origem") Long contaDeOrigem,
+                                                             @PathVariable("valor_transacao") Double valorDaTransacao,
+                                                             @PathVariable("conta_de_destino") Long contaDeDestino) {
 
-
-
-        if(contaDeDestino.equals(contaDeOrigem) || !contaCorrenteRepository.existsById(contaDeOrigem)
-                || !contaCorrenteRepository.existsById(contaDeDestino)
-                || contaCorrenteService.buscar(contaDeOrigem).getSaldoDaConta() < valorDaTransacao){
-            return ResponseEntity.badRequest().build();
+        if (contaDeDestino.equals(contaDeOrigem) || !contaCorrenteRepository.existsById(contaDeOrigem)
+                || !contaCorrenteRepository.existsById(contaDeDestino) || contaCorrenteService.buscar(contaDeOrigem).getSaldoDaConta() < valorDaTransacao) {
+            return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(transacaoService.transferir(contaDeOrigem,valorDaTransacao, contaDeDestino));
+        return ResponseEntity.status(HttpStatus.OK).body(transacaoService.transferir(contaDeOrigem, valorDaTransacao, contaDeDestino));
     }
+
 
 }

@@ -29,7 +29,7 @@ public class TransacaoService {
         ContaCorrenteModel contaCorrenteModel = repository.findById(idContaOrigem).get();
 
         if (contaCorrenteModel.getSaldoDaConta() < valorPagamento) {
-            return null;
+            throw new ContaException("Saldo Insuficiente");
         }
 
         TransacaoModel transacaoModel = new TransacaoModel();

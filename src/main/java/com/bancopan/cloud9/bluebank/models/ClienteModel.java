@@ -3,9 +3,11 @@ package com.bancopan.cloud9.bluebank.models;
 import com.bancopan.cloud9.bluebank.enums.TipoCliente;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
@@ -18,10 +20,12 @@ public class ClienteModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCliente;
 
-    @Column(nullable = false)
+    @Column
+    @NotBlank
     private String nome;
 
-    @Column(nullable = false)
+    @Column
+    @NotBlank
     @Enumerated(EnumType.STRING)
     private TipoCliente tipoCliente;
 
@@ -30,16 +34,22 @@ public class ClienteModel implements Serializable {
     private ContaCorrenteModel contaCorrenteModel;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_endereco")
+    @JoinColumn(name = "id_endereco", unique = true)
     private EnderecoModel enderecoModel;
 
-    @Column(nullable = false, length = 100)
+    @Column
+    @NotBlank
+    @Size(max = 20)
     private String telefone;
 
-    @Column(nullable = false, length = 100)
+    @Column
+    @NotBlank
+    @Email
+    @Size(max = 255)
     private String email;
 
-    @Column(nullable = false)
+    @Column
+    @Min(value = 0)
     private Double renda;
 
     public ClienteModel(){
@@ -134,4 +144,3 @@ public class ClienteModel implements Serializable {
         return Objects.hash(idCliente, nome, tipoCliente, contaCorrenteModel, enderecoModel, telefone, email, renda);
     }
 }
-
