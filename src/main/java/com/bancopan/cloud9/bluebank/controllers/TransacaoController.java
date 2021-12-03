@@ -1,5 +1,7 @@
 package com.bancopan.cloud9.bluebank.controllers;
 
+import com.bancopan.cloud9.bluebank.dtos.ConsultaListaDeTransacoesDTO;
+import com.bancopan.cloud9.bluebank.models.ContaCorrenteModel;
 import com.bancopan.cloud9.bluebank.models.TransacaoModel;
 import com.bancopan.cloud9.bluebank.repositories.ContaCorrenteRepository;
 import com.bancopan.cloud9.bluebank.repositories.TransacaoRepository;
@@ -32,8 +34,10 @@ public class TransacaoController {
 
     @GetMapping
     @ApiOperation(value = "Retorna uma lista com todas as transacoes")
-    public ResponseEntity<List<TransacaoModel>> getAllClienteModel() {
-        return ResponseEntity.ok(transacaoRepository.findAll());
+    public ResponseEntity<List<ConsultaListaDeTransacoesDTO>> listarTodasAsTransacoes(){
+        List<ContaCorrenteModel> contaCorrenteModelList = contaCorrenteRepository.findAll();
+        List<ConsultaListaDeTransacoesDTO> consultaListaDeTransacoesDTO = ConsultaListaDeTransacoesDTO.converteParaDTO(contaCorrenteModelList);
+        return ResponseEntity.ok(consultaListaDeTransacoesDTO);
     }
 
     @GetMapping(value = "/transacoes/{conta_de_origem}/")

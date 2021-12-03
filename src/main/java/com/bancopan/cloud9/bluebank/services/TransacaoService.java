@@ -1,6 +1,7 @@
 package com.bancopan.cloud9.bluebank.services;
 
 
+import com.bancopan.cloud9.bluebank.enums.TipoDeTransacao;
 import com.bancopan.cloud9.bluebank.exception.ContaException;
 import com.bancopan.cloud9.bluebank.models.ContaCorrenteModel;
 import com.bancopan.cloud9.bluebank.models.TransacaoModel;
@@ -35,6 +36,7 @@ public class TransacaoService {
         TransacaoModel transacaoModel = new TransacaoModel();
         transacaoModel.setContaDeOrigem(contaCorrenteModel);
         transacaoModel.setValorDaTransacao(valorPagamento);
+        transacaoModel.setTipoDeTransacao(TipoDeTransacao.PAGAMENTO);
         contaCorrenteModel.sacar(valorPagamento);
         return transacaoRepository.save(transacaoModel);
 
@@ -44,6 +46,7 @@ public class TransacaoService {
 
         ContaCorrenteModel contaCorrenteModel = repository.findById(idContaOrigem).get();
         TransacaoModel transacaoModel = new TransacaoModel();
+        transacaoModel.setTipoDeTransacao(TipoDeTransacao.DEPOSITO);
         transacaoModel.setContaDeDestino(contaCorrenteModel);
         transacaoModel.setValorDaTransacao(valorPagamento);
 
@@ -66,6 +69,7 @@ public class TransacaoService {
 
         contaCorrenteOrigem.sacar(valorPagamento);
 
+        transferencia.setTipoDeTransacao(TipoDeTransacao.TRANSFERENCIA);
         transferencia.setContaDeOrigem(contaCorrenteOrigem);
         transferencia.setValorDaTransacao(valorPagamento);
         transferencia.setContaDeDestino(contaCorrenteDestino);

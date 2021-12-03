@@ -105,13 +105,13 @@ public class ContaCorrenteModel implements Serializable {
         this.transacoesFeitas = transacoesFeitas;
     }
 
-//    public List<TransacaoModel> getTransacoesRecebidas() {
-//        return transacoesRecebidas;
-//    }
-//
-//    public void setTransacoesRecebidas(List<TransacaoModel> transacoesRecebidas) {
-//        this.transacoesRecebidas = transacoesRecebidas;
-//    }
+    public List<TransacaoModel> getTransacoesRecebidas() {
+        return transacoesRecebidas;
+    }
+
+    public void setTransacoesRecebidas(List<TransacaoModel> transacoesRecebidas) {
+        this.transacoesRecebidas = transacoesRecebidas;
+    }
 
     public void sacar(Double valor) {
         if (this.getSaldoDaConta() < valor) {
