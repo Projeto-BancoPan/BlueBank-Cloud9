@@ -2,6 +2,7 @@ package com.bancopan.cloud9.bluebank.models;
 
 import com.bancopan.cloud9.bluebank.enums.Agencia;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -40,11 +41,11 @@ public class ContaCorrenteModel implements Serializable {
     private Double saldoDaConta;
 
     @OneToMany(mappedBy = "contaDeOrigem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private List<TransacaoModel> transacoesFeitas;
 
     @OneToMany(mappedBy = "contaDeDestino", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private List<TransacaoModel> transacoesRecebidas;
 
     public ContaCorrenteModel() {

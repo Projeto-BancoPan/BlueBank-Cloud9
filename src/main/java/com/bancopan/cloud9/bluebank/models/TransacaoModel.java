@@ -3,6 +3,8 @@ package com.bancopan.cloud9.bluebank.models;
 import com.bancopan.cloud9.bluebank.enums.TipoDeTransacao;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -27,12 +29,12 @@ public class TransacaoModel implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "conta_de_origem")
-    @JsonBackReference
+    @JsonIgnore
     private ContaCorrenteModel contaDeOrigem;
 
     @ManyToOne
     @JoinColumn(name = "conta_de_destino")
-    @JsonBackReference
+    @JsonIgnore
     private ContaCorrenteModel contaDeDestino;
 
     @Column

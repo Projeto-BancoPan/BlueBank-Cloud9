@@ -25,7 +25,6 @@ public class EnderecoModel implements Serializable {
     private String logradouro;
 
     @Column
-    @NotBlank
     private Integer numero;
 
     @Column

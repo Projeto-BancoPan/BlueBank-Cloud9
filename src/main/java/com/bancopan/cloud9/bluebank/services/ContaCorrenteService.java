@@ -13,7 +13,6 @@ public class ContaCorrenteService {
     @Autowired
     private ContaCorrenteRepository contaCorrenteRepository;
 
-
     public ContaCorrenteModel buscar(Long contaId) {
         return contaCorrenteRepository.findById(contaId)
                 .orElseThrow(() -> new ContaException("Conta não encontrada"));

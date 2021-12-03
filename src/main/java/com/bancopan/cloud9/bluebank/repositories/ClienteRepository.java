@@ -10,5 +10,4 @@ public interface ClienteRepository extends JpaRepository<ClienteModel, Long> {
 
     @Query(value= "SELECT * FROM TB_CLIENTES u WHERE u.tipo_cliente = :tipoCliente", nativeQuery = true)
     List<ClienteModel> procuraTipoCliente(String tipoCliente);
-
 }
