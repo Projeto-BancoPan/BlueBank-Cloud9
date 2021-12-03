@@ -25,7 +25,6 @@ public class ClienteModel implements Serializable {
     private String nome;
 
     @Column
-    @NotBlank
     @Enumerated(EnumType.STRING)
     private TipoCliente tipoCliente;
 
