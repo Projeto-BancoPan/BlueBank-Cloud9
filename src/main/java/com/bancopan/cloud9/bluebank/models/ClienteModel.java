@@ -29,7 +29,7 @@ public class ClienteModel implements Serializable {
     @Enumerated(EnumType.STRING)
     private TipoCliente tipoCliente;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST, orphanRemoval = false)
     @JoinColumn(name = "conta", unique = true)
     private ContaCorrenteModel contaCorrenteModel;
 

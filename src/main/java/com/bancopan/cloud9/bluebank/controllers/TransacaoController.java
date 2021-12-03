@@ -36,14 +36,24 @@ public class TransacaoController {
         return ResponseEntity.ok(transacaoRepository.findAll());
     }
 
+    @GetMapping(value = "/transacoes/{conta_de_origem}/")
+    @ApiOperation(value = "Retorna uma lista com todas as transacoes do cliente")
+    public ResponseEntity transacaoClienteConsultar(@PathVariable("conta_de_origem") Long conta_de_origem) {
+        return contaCorrenteRepository.findById(conta_de_origem)
+                .map(record -> ResponseEntity.ok().body(record))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 
     @PostMapping(value = "/{conta_de_origem}/pagar/{valor_transacao}")
     @ApiOperation(value = "Efetuar um pagamento")
     public ResponseEntity<TransacaoModel> transacaoPagar(@Valid @RequestBody @PathVariable("conta_de_origem") Long contaDeOrigem,
                                                          @PathVariable("valor_transacao") Double valorDaTransacao) {
-        if (!contaCorrenteRepository.existsById(contaDeOrigem)) {
+        if (!contaCorrenteRepository.existsById(contaDeOrigem)
+                || contaCorrenteService.buscar(contaDeOrigem).getSaldoDaConta() < valorDaTransacao) {
             return ResponseEntity.notFound().build();
         }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(transacaoService.pagar(contaDeOrigem, valorDaTransacao));
     }
 
@@ -53,8 +63,7 @@ public class TransacaoController {
     public ResponseEntity<TransacaoModel> transacaoDepositar(@Valid @RequestBody @PathVariable("conta_de_destino") Long contaDeOrigem,
                                                              @PathVariable("valor_transacao") Double valorDaTransacao) {
 
-        if (!contaCorrenteRepository.existsById(contaDeOrigem)
-                || contaCorrenteService.buscar(contaDeOrigem).getSaldoDaConta() < valorDaTransacao) {
+        if (!contaCorrenteRepository.existsById(contaDeOrigem)) {
             return ResponseEntity.notFound().build();
         }
 
