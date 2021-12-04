@@ -34,7 +34,7 @@ public class TransacaoController {
 
     @GetMapping
     @ApiOperation(value = "Retorna uma lista com todas as transacoes")
-    public ResponseEntity<List<ConsultaListaDeTransacoesDTO>> listarTodasAsTransacoes(){
+    public ResponseEntity<List<ConsultaListaDeTransacoesDTO>> listarTodasAsTransacoes() {
         List<ContaCorrenteModel> contaCorrenteModelList = contaCorrenteRepository.findAll();
         List<ConsultaListaDeTransacoesDTO> consultaListaDeTransacoesDTO = ConsultaListaDeTransacoesDTO.converteParaDTO(contaCorrenteModelList);
         return ResponseEntity.ok(consultaListaDeTransacoesDTO);
@@ -48,13 +48,15 @@ public class TransacaoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-
     @PostMapping(value = "/{conta_de_origem}/pagar/{valor_transacao}")
     @ApiOperation(value = "Efetuar um pagamento")
     public ResponseEntity<TransacaoModel> transacaoPagar(@Valid @RequestBody @PathVariable("conta_de_origem") Long contaDeOrigem,
                                                          @PathVariable("valor_transacao") Double valorDaTransacao) {
+
+
         if (!contaCorrenteRepository.existsById(contaDeOrigem)
-                || contaCorrenteService.buscar(contaDeOrigem).getSaldoDaConta() < valorDaTransacao) {
+                || contaCorrenteService.buscar(contaDeOrigem).getSaldoDaConta() < valorDaTransacao
+                || contaCorrenteService.buscar(contaDeOrigem).getDataDeEncerramento() != null) {
             return ResponseEntity.notFound().build();
         }
 
@@ -67,7 +69,7 @@ public class TransacaoController {
     public ResponseEntity<TransacaoModel> transacaoDepositar(@Valid @RequestBody @PathVariable("conta_de_destino") Long contaDeOrigem,
                                                              @PathVariable("valor_transacao") Double valorDaTransacao) {
 
-        if (!contaCorrenteRepository.existsById(contaDeOrigem)) {
+        if (!contaCorrenteRepository.existsById(contaDeOrigem) || contaCorrenteService.buscar(contaDeOrigem).getDataDeEncerramento() != null) {
             return ResponseEntity.notFound().build();
         }
 
@@ -81,11 +83,11 @@ public class TransacaoController {
                                                              @PathVariable("valor_transacao") Double valorDaTransacao,
                                                              @PathVariable("conta_de_destino") Long contaDeDestino) {
 
-        if (contaDeDestino.equals(contaDeOrigem) || !contaCorrenteRepository.existsById(contaDeOrigem)
-                || !contaCorrenteRepository.existsById(contaDeDestino) || contaCorrenteService.buscar(contaDeOrigem).getSaldoDaConta() < valorDaTransacao) {
+        if (contaDeDestino.equals(contaDeOrigem) || !contaCorrenteRepository.existsById(contaDeOrigem) || !contaCorrenteRepository.existsById(contaDeDestino)
+                || contaCorrenteService.buscar(contaDeOrigem).getSaldoDaConta() < valorDaTransacao
+                || contaCorrenteService.buscar(contaDeOrigem).getDataDeEncerramento() != null || contaCorrenteService.buscar(contaDeDestino).getDataDeEncerramento() != null) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.status(HttpStatus.OK).body(transacaoService.transferir(contaDeOrigem, valorDaTransacao, contaDeDestino));
     }
 

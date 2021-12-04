@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @Service
 public class TransacaoService {
 
@@ -29,8 +31,9 @@ public class TransacaoService {
 
         ContaCorrenteModel contaCorrenteModel = repository.findById(idContaOrigem).get();
 
-        if (contaCorrenteModel.getSaldoDaConta() < valorPagamento) {
-            throw new ContaException("Saldo Insuficiente");
+
+        if (contaCorrenteModel.getSaldoDaConta() < valorPagamento || contaCorrenteModel.getDataDeEncerramento() != null) {
+            throw new ContaException("Saldo Insuficiente ou conta encerrada");
         }
 
         TransacaoModel transacaoModel = new TransacaoModel();
@@ -45,6 +48,11 @@ public class TransacaoService {
     public TransacaoModel depositar(Double valorPagamento, Long idContaOrigem) {
 
         ContaCorrenteModel contaCorrenteModel = repository.findById(idContaOrigem).get();
+
+        if (contaCorrenteModel.getDataDeEncerramento() != null) {
+            throw new ContaException("Conta encerrada");
+        }
+
         TransacaoModel transacaoModel = new TransacaoModel();
         transacaoModel.setTipoDeTransacao(TipoDeTransacao.DEPOSITO);
         transacaoModel.setContaDeDestino(contaCorrenteModel);
@@ -61,8 +69,10 @@ public class TransacaoService {
         ContaCorrenteModel contaCorrenteOrigem = contaCorrenteService.buscar(idContaOrigem);
         ContaCorrenteModel contaCorrenteDestino = contaCorrenteService.buscar(idContaDestino);
 
-        if(contaCorrenteDestino == contaCorrenteOrigem) {
-            throw new ContaException("Contas Iguais");
+        if(contaCorrenteDestino == contaCorrenteOrigem
+                || contaCorrenteOrigem.getDataDeEncerramento() != null
+                || contaCorrenteDestino.getDataDeEncerramento() != null  ) {
+            throw new ContaException("Contas iguais ou encerradas");
         }
 
         TransacaoModel transferencia = new TransacaoModel();
