@@ -30,7 +30,7 @@ public class ContaCorrenteController {
     private ContaCorrenteRepository repository;
 
     @GetMapping("/listar")
-    @ApiOperation(value = "Listar todos os clientes")
+    @ApiOperation(value = "Listar todas as contas")
     public ResponseEntity<List<ContaCorrenteModel>> getAllContas() {
         return ResponseEntity.status(HttpStatus.OK).body(repository.findAll());
     }
@@ -43,29 +43,8 @@ public class ContaCorrenteController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping(path = "/salvar")
-    @ApiOperation(value = "Cadastra um novo cliente")
-    public ResponseEntity<ContaCorrenteModel> salvarConta(@Valid @RequestBody ContaCorrenteModel conta) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(conta));
-    }
-
-    @DeleteMapping(path = "/{conta}")
-    @ApiOperation(value = "Deleta um cliente")
-    public ResponseEntity<HttpStatus> deleteConta(@PathVariable("conta") Long codigo) {
-        try {
-            Optional<ContaCorrenteModel> conta = repository.findById(codigo);
-            if (conta.isPresent()) {
-                repository.delete(conta.get());
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
     @PutMapping(path = "/atualizar")
-    @ApiOperation(value = "Atualiza os dados de um cliente")
+    @ApiOperation(value = "Atualiza os dados de uma conta")
     public ResponseEntity<ContaCorrenteModel> atualizarCliente(@Valid @RequestBody ContaCorrenteModel conta) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(repository.save(conta));
 
