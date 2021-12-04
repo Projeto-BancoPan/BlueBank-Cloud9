@@ -1,5 +1,7 @@
 package com.bancopan.cloud9.bluebank.controllers;
 
+import com.amazonaws.services.sns.AmazonSNSClient;
+import com.amazonaws.services.sns.model.SubscribeRequest;
 import com.bancopan.cloud9.bluebank.dtos.*;
 import com.bancopan.cloud9.bluebank.models.ClienteModel;
 import com.bancopan.cloud9.bluebank.repositories.ClienteRepository;
@@ -23,6 +25,9 @@ public class ClienteController {
 
     @Autowired
     private ClienteRepository repository;
+    private AmazonSNSClient snsClient;
+
+	String TOPIC_ARN = "COLOCAR A ARN DE CHAVE";
 
     @GetMapping(value = "/clientes")
     @ApiOperation(value = "Retorna uma lista de todos os clientes")
@@ -73,6 +78,8 @@ public class ClienteController {
     @PostMapping(value = "/cliente/salvar")
     @ApiOperation(value = "Salva um novo cliente")
     public ResponseEntity<ClienteModel> salvarCliente(@Valid @RequestBody CriarClienteDTO criarClienteDTO) {
+    	SubscribeRequest request = new SubscribeRequest(TOPIC_ARN, "email", criarClienteDTO.getEmail());
+    	snsClient.subscribe(request);
         ClienteModel clienteModel = CriarClienteDTO.converteParaModel(criarClienteDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(clienteModel));
     }
