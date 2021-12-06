@@ -14,7 +14,7 @@ public class AwsSnsSmsController {
 	@Autowired
 	private AmazonSNSClient snsClient;
 
-	String TOPIC_ARN = "COLOCA AQUI O ARN QUE GEROU QND VVC FEZ O SNS";
+	String TOPIC_ARN = "arn:aws:sns:us-east-2:965934840569:Joao_erro";
 
 	@GetMapping("/cliente/salvar/{email}")
 	public String addSubscription(@PathVariable String email) {

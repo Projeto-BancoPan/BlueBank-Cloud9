@@ -27,7 +27,7 @@ public class ClienteController {
     private ClienteRepository repository;
     private AmazonSNSClient snsClient;
 
-	String TOPIC_ARN = "COLOCAR A ARN DE CHAVE";
+	String TOPIC_ARN = "arn:aws:sns:us-east-2:965934840569:Joao_erro";
 
     @GetMapping(value = "/clientes")
     @ApiOperation(value = "Retorna uma lista de todos os clientes")
@@ -63,7 +63,7 @@ public class ClienteController {
 
     @GetMapping(value = "/tipo_cliente/{tipoCliente}")
     @ApiOperation(value = "Retorna uma lista de clientes pelo tipo")
-    public ResponseEntity<List<ClienteModel>> filtroPorTipo(String tipoCliente) {
+    public ResponseEntity<List<ClienteModel>> filtroPorTipo(@PathVariable("tipoCLiente")String tipoCliente) {
         return ResponseEntity.ok(repository.procuraTipoCliente(tipoCliente));
     }
 
