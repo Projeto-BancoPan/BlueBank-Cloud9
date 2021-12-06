@@ -27,7 +27,7 @@ public class ClienteController {
     private ClienteRepository repository;
     private AmazonSNSClient snsClient;
 
-	String TOPIC_ARN = "arn:aws:sns:us-east-2:965934840569:Joao_erro";
+	String TOPIC_ARN = "arn:aws:sns:us-east-1:965934840569:Cloud9_sns";
 
     @GetMapping(value = "/clientes")
     @ApiOperation(value = "Retorna uma lista de todos os clientes")

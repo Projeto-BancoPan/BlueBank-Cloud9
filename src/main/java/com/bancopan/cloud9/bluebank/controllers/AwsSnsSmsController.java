@@ -15,16 +15,16 @@ public class AwsSnsSmsController {
 	@Autowired
 	private AmazonSNSClient snsClient;
 
-	String TOPIC_ARN = "arn:aws:sns:us-east-2:965934840569:Joao_erro";
+	String TOPIC_ARN = "arn:aws:sns:us-east-1:965934840569:Cloud9_sns";
 
-	@GetMapping("/api/Verificar_email")
+	@GetMapping("/verificar-email/{email}")
 	public String addSubscription(@PathVariable String email) {
 		SubscribeRequest request = new SubscribeRequest(TOPIC_ARN, "email", email);
 		snsClient.subscribe(request);
 		return "Sua inscrição no Blue Bank está pendente. Verifique seu e-mail para continuar:" + email;
 	}
 
-	@GetMapping("/api/enviarNotificacao")
+	@GetMapping("/enviarNotificacao")
 	public String publishMessageToTopic() {
 		PublishRequest publishRequest = new PublishRequest(TOPIC_ARN, buildEmailBody(), "Notification: Network connectivity issue");
 		snsClient.publish(publishRequest);
