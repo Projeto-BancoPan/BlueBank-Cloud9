@@ -13,8 +13,8 @@ import com.amazonaws.services.sns.AmazonSNSClientBuilder;
 @Configuration
 public class AwsSnsSmsConfig {
 
-	public static final String SECRET_KEY = "zLNeUsFjxfxUIqAFdlwiMfZqJD7LlBCzr4NP6fES";
-	public static final String ACCESS_KEY = "AKIA6BZRT7L425LSEUPU";
+	public static final String SECRET_KEY = "COOLOQUE AQUI SUA SENHA DE IAM AWS";
+	public static final String ACCESS_KEY = "COLOQUE AQUI SUA CHAVE DE ACESSO IAM AWS";
 
 
 	@Bean

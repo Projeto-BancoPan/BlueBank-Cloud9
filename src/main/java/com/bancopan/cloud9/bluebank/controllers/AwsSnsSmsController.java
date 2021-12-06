@@ -15,7 +15,7 @@ public class AwsSnsSmsController {
 	@Autowired
 	private AmazonSNSClient snsClient;
 
-	String TOPIC_ARN = "arn:aws:sns:us-east-1:965934840569:Cloud9_sns";
+	String TOPIC_ARN = "ADICIONE AQUI SUA CHAVE SNS";
 
 	@GetMapping("/verificar-email/{email}")
 	public String addSubscription(@PathVariable String email) {
