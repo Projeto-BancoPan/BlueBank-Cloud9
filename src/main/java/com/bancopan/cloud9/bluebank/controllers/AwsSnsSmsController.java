@@ -3,6 +3,7 @@ package com.bancopan.cloud9.bluebank.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.amazonaws.services.sns.model.PublishRequest;
 
@@ -16,14 +17,14 @@ public class AwsSnsSmsController {
 
 	String TOPIC_ARN = "arn:aws:sns:us-east-2:965934840569:Joao_erro";
 
-	@GetMapping("/cliente/salvar/{email}")
+	@GetMapping("/api/Verificar_email")
 	public String addSubscription(@PathVariable String email) {
 		SubscribeRequest request = new SubscribeRequest(TOPIC_ARN, "email", email);
 		snsClient.subscribe(request);
 		return "Sua inscrição no Blue Bank está pendente. Verifique seu e-mail para continuar:" + email;
 	}
 
-	@GetMapping("/enviarNotificacao")
+	@GetMapping("/api/enviarNotificacao")
 	public String publishMessageToTopic() {
 		PublishRequest publishRequest = new PublishRequest(TOPIC_ARN, buildEmailBody(), "Notification: Network connectivity issue");
 		snsClient.publish(publishRequest);

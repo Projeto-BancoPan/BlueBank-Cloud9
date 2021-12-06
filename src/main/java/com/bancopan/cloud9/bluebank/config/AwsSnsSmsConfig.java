@@ -14,7 +14,7 @@ import com.amazonaws.services.sns.AmazonSNSClientBuilder;
 public class AwsSnsSmsConfig {
 
 	public static final String SECRET_KEY = "AKIA6BZRT7L43R62EAHD";
-	public static final String ACCESS_KEY = "cMqBx+8WDolTEmt7CBYND/SeY7+YYQ923gAPvDNC\r\n";
+	public static final String ACCESS_KEY = "cMqBx+8WDolTEmt7CBYND/SeY7+YYQ923gAPvDNC";
 
 
 	@Bean
