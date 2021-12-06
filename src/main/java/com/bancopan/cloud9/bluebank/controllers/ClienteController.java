@@ -25,6 +25,8 @@ public class ClienteController {
 
     @Autowired
     private ClienteRepository repository;
+    
+    @Autowired
     private AmazonSNSClient snsClient;
 
 	String TOPIC_ARN = "arn:aws:sns:us-east-1:965934840569:Cloud9_sns";
@@ -80,8 +82,8 @@ public class ClienteController {
     @ApiOperation(value = "Salva um novo cliente")
     public ResponseEntity<ClienteModel> salvarCliente(@Valid @RequestBody CriarClienteDTO criarClienteDTO) {
     	SubscribeRequest request = new SubscribeRequest(TOPIC_ARN, "email", criarClienteDTO.getEmail());
-    	snsClient.subscribe(request);
-        ClienteModel clienteModel = CriarClienteDTO.converteParaModel(criarClienteDTO);
+    	snsClient.subscribe(request);    	
+        ClienteModel clienteModel = CriarClienteDTO.converteParaModel(criarClienteDTO);        
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(clienteModel));
     }
 
