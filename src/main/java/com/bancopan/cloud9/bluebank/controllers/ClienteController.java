@@ -9,8 +9,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,11 +25,11 @@ public class ClienteController {
 
     @Autowired
     private ClienteRepository repository;
-    
+
     @Autowired
     private AmazonSNSClient snsClient;
 
-	String TOPIC_ARN = "arn:aws:sns:us-east-1:965934840569:Cloud9_sns";
+    String TOPIC_ARN = "arn:aws:sns:us-east-1:965934840569:Cloud9_sns";
 
     @GetMapping(value = "/clientes")
     @ApiOperation(value = "Retorna uma lista de todos os clientes")
@@ -42,6 +42,11 @@ public class ClienteController {
     @GetMapping(value = "/cliente/{idCliente}")
     @ApiOperation(value = "Retorna um cliente pelo id")
     public ResponseEntity<ConsultaClienteModelDTO> consultarCliente(@PathVariable("idCliente") Long idCliente) {
+
+        if (!repository.existsById(idCliente)) {
+            return ResponseEntity.notFound().build();
+        }
+
         ClienteModel clienteModel = repository.getById(idCliente);
         ConsultaClienteModelDTO consultaClienteModelDTO = new ConsultaClienteModelDTO(clienteModel);
         return ResponseEntity.ok(consultaClienteModelDTO);
@@ -50,6 +55,11 @@ public class ClienteController {
     @GetMapping(value = "/cliente_endereco/{idCliente}")
     @ApiOperation(value = "Retorna o cliente pelo id somente com o endereço")
     public ResponseEntity<ConsultaClienteEnderecoDTO> consultarClientePorEnderecoDTO(@PathVariable("idCliente") Long idCliente) {
+
+        if (!repository.existsById(idCliente)) {
+            return ResponseEntity.notFound().build();
+        }
+
         ClienteModel clienteModel = repository.getById(idCliente);
         ConsultaClienteEnderecoDTO consultaClienteEnderecoDTO = new ConsultaClienteEnderecoDTO(clienteModel);
         return ResponseEntity.ok(consultaClienteEnderecoDTO);
@@ -58,6 +68,11 @@ public class ClienteController {
     @GetMapping(value = "/cliente_contato/{idCliente}")
     @ApiOperation(value = "Retorna o cliente pelo id somente com os contatos")
     public ResponseEntity<ConsultaClienteContatoDTO> consultarClientePorContatoDTO(@PathVariable("idCliente") Long idCliente) {
+
+        if (!repository.existsById(idCliente)) {
+            return ResponseEntity.notFound().build();
+        }
+
         ClienteModel clienteModel = repository.getById(idCliente);
         ConsultaClienteContatoDTO consultaClienteContatoDTO = new ConsultaClienteContatoDTO(clienteModel);
         return ResponseEntity.ok(consultaClienteContatoDTO);
@@ -66,6 +81,7 @@ public class ClienteController {
     @GetMapping(value = "/tipo_cliente/{tipoCliente}")
     @ApiOperation(value = "Retorna uma lista de clientes pelo tipo")
     public ResponseEntity<List<ClienteModel>> filtroPorTipo(@PathVariable("tipoCLiente") String tipoCliente) {
+
         List<ClienteModel> listaClienteModel = repository.procuraTipoCliente(tipoCliente);
         return ResponseEntity.ok(listaClienteModel);
     }
@@ -73,6 +89,8 @@ public class ClienteController {
     @GetMapping(value = "/tipo_cliente_dto/{tipoCliente}")
     @ApiOperation(value = "Retorna uma lista de clientes pelo tipo com endereços e contatos")
     public ResponseEntity<List<ConsultaClienteTipoDTO>> filtroPorTipoDTO(@PathVariable("tipoCliente") String tipoCliente) {
+
+
         List<ClienteModel> listaClienteModel = repository.procuraTipoCliente(tipoCliente);
         List<ConsultaClienteTipoDTO> listaConsultaClienteTipoDTO = ConsultaClienteTipoDTO.converteParaDTO(listaClienteModel);
         return ResponseEntity.ok(listaConsultaClienteTipoDTO);
@@ -81,32 +99,44 @@ public class ClienteController {
     @PostMapping(value = "/cliente/salvar")
     @ApiOperation(value = "Salva um novo cliente")
     public ResponseEntity<ClienteModel> salvarCliente(@Valid @RequestBody CriarClienteDTO criarClienteDTO) {
-    	SubscribeRequest request = new SubscribeRequest(TOPIC_ARN, "email", criarClienteDTO.getEmail());
-    	snsClient.subscribe(request);    	
-        ClienteModel clienteModel = CriarClienteDTO.converteParaModel(criarClienteDTO);        
+        SubscribeRequest request = new SubscribeRequest(TOPIC_ARN, "email", criarClienteDTO.getEmail());
+        snsClient.subscribe(request);
+
+        ClienteModel clienteModel = CriarClienteDTO.converteParaModel(criarClienteDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(clienteModel));
     }
 
     @DeleteMapping(value = "/cliente/{idCliente}")
     @ApiOperation(value = "Deleta um cliente")
-    public ResponseEntity<HttpStatus> deleteCliente(@PathVariable("idCliente") Long idCliente) {
-        try {
-            Optional<ClienteModel> cliente = repository.findById(idCliente);
-            if (cliente.isPresent()) {
-                repository.delete(cliente.get());
-            }
-            return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Void> deleteCliente(@PathVariable("idCliente") Long idCliente) {
+
+        if (!repository.existsById(idCliente)) {
+            return ResponseEntity.notFound().build();
         }
+        repository.deleteById(idCliente);
+        return ResponseEntity.noContent().build();
+
     }
 
-    @PutMapping(value = "/cliente/atualizar")
+
+    @Transactional
+    @RequestMapping(value = "/cliente/atualizar/{idCliente}", method = RequestMethod.PUT)
     @ApiOperation(value = "Atualiza os dados de um cliente")
-    public ResponseEntity<ClienteModel> atualizarCliente(@Valid @RequestBody ClienteModel cliente) {
+    public ResponseEntity<ClienteModel> Put(@PathVariable(value = "idCliente") Long idCliente, @Valid @RequestBody ClienteModel cliente) {
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(repository.save(cliente));
-
+        Optional<ClienteModel> clienteModel = repository.findById(idCliente);
+        if (clienteModel.isPresent()) {
+            ClienteModel pessoa = clienteModel.get();
+            pessoa.setNome(cliente.getNome());
+            pessoa.setEmail(cliente.getEmail());
+            pessoa.setTelefone(cliente.getTelefone());
+            pessoa.setEnderecoModel(cliente.getEnderecoModel());
+            cliente.setContaCorrenteModel(cliente.getContaCorrenteModel());
+            pessoa.setRenda(cliente.getRenda());
+            repository.save(pessoa);
+            return new ResponseEntity<>(pessoa, HttpStatus.OK);
+        } else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

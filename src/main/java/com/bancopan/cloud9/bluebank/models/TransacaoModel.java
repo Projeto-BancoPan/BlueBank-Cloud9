@@ -41,7 +41,7 @@ public class TransacaoModel implements Serializable {
     @Column
     private Double valorDaTransacao;
 
-    public TransacaoModel(){
+    public TransacaoModel() {
     }
 
     public TransacaoModel(Long numeroDaTransacao, TipoDeTransacao tipoDeTransacao, ContaCorrenteModel contaDeOrigem,
