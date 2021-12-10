@@ -4,7 +4,6 @@ import com.bancopan.cloud9.bluebank.dtos.ConsultaListaDeTransacoesDTO;
 import com.bancopan.cloud9.bluebank.models.ContaCorrenteModel;
 import com.bancopan.cloud9.bluebank.models.TransacaoModel;
 import com.bancopan.cloud9.bluebank.repositories.ContaCorrenteRepository;
-import com.bancopan.cloud9.bluebank.repositories.TransacaoRepository;
 import com.bancopan.cloud9.bluebank.services.ContaCorrenteService;
 import com.bancopan.cloud9.bluebank.services.TransacaoService;
 import io.swagger.annotations.ApiOperation;
@@ -17,11 +16,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/transacoes")
+@RequestMapping(value = "/api/transacao")
 public class TransacaoController {
-
-    @Autowired
-    private TransacaoRepository transacaoRepository;
 
     @Autowired
     private TransacaoService transacaoService;
@@ -32,7 +28,7 @@ public class TransacaoController {
     @Autowired
     private ContaCorrenteService contaCorrenteService;
 
-    @GetMapping
+    @GetMapping(value = "/listar")
     @ApiOperation(value = "Retorna uma lista com todas as transacoes")
     public ResponseEntity<List<ConsultaListaDeTransacoesDTO>> listarTodasAsTransacoes() {
         List<ContaCorrenteModel> contaCorrenteModelList = contaCorrenteRepository.findAll();
@@ -40,7 +36,7 @@ public class TransacaoController {
         return ResponseEntity.ok(consultaListaDeTransacoesDTO);
     }
 
-    @GetMapping(value = "/transacoes/{conta_de_origem}/")
+    @GetMapping(value = "/{conta_de_origem}/")
     @ApiOperation(value = "Retorna uma lista com todas as transacoes do cliente")
     public ResponseEntity transacaoClienteConsultar(@PathVariable("conta_de_origem") Long conta_de_origem) {
         return contaCorrenteRepository.findById(conta_de_origem)
@@ -48,7 +44,7 @@ public class TransacaoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping(value = "/{conta_de_origem}/pagar/{valor_transacao}")
+    @PostMapping(value = "/pagar/{conta_de_origem}/{valor_transacao}")
     @ApiOperation(value = "Efetuar um pagamento")
     public ResponseEntity<TransacaoModel> transacaoPagar(@Valid @RequestBody @PathVariable("conta_de_origem") Long contaDeOrigem,
                                                          @PathVariable("valor_transacao") Double valorDaTransacao) {
@@ -64,7 +60,7 @@ public class TransacaoController {
     }
 
 
-    @PostMapping(value = "/{conta_de_destino}/depositar/{valor_transacao}")
+    @PostMapping(value = "/depositar/{conta_de_destino}/{valor_transacao}")
     @ApiOperation(value = "Efetuar um depósito")
     public ResponseEntity<TransacaoModel> transacaoDepositar(@Valid @RequestBody @PathVariable("conta_de_destino") Long contaDeOrigem,
                                                              @PathVariable("valor_transacao") Double valorDaTransacao) {
@@ -77,7 +73,7 @@ public class TransacaoController {
     }
 
 
-    @PostMapping(value = "/{conta_de_origem}/transferir/{valor_transacao}/{conta_de_destino}")
+    @PostMapping(value = "/transferir/{conta_de_origem}/{valor_transacao}/{conta_de_destino}")
     @ApiOperation(value = "Efetua uma transferência para outra conta")
     public ResponseEntity<TransacaoModel> transacaoTranferir(@Valid @RequestBody @PathVariable("conta_de_origem") Long contaDeOrigem,
                                                              @PathVariable("valor_transacao") Double valorDaTransacao,
