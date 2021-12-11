@@ -1,0 +1,12 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+  build:
+    commands:
+      - echo "Fase de buid iniciando..."
+      - mvn clean install -DskipTests
+  post_build:
+    commands:
+      - echo "Pipeline finalizado com sucesso - Cloud9"
