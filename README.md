@@ -87,6 +87,9 @@ http://localhost:5000
 
 Esse código é uma alternativa para  aplicação bancária back-end com foco em construção de banco de dados de base de cliente e transações. Essa não é a unica forma de se realizar essa tarefa, além de sempre ser possívle a revisão por pares para que ele apresente novas funcionalidades e se torne mais limpos e performáticos.
 
+## U+1F50C	 Endpoint
+
+
 
 
 ## 🛠️ Construído com
@@ -114,10 +117,10 @@ Esse código é uma alternativa para  aplicação bancária back-end com foco em
 ## ✒️ Autores
 
 
-* **João Pedro Marques Mourão** - *Desenvolvimento e Scrum Master* - [João Pedro Marques Mourão](https://github.com/joaopedro-marques)
-* **Leandro de Barros** - *Desenvolvimento* - 
-* **Luiz Nascimento da Silva** - *Desenvolvimento* - [Luiz Nascimento](https://github.com/luizns)
-* **Marcel Eduardo Vicaria Pinotti** - *Desenvolvimento e Tech Lead* - [Marcel Pinotti](https://github.com/marcelpinotti)
+* **João Pedro Marques Mourão** - *Desenvolvimento e Scrum Master* - [Github](https://github.com/joaopedro-marques)
+* **Leandro de Barros** - *Desenvolvimento* - [Github](https://github.com/leandrobarr)
+* **Luiz Nascimento da Silva** - *Desenvolvimento* - [Github](https://github.com/luizns)
+* **Marcel Eduardo Vicaria Pinotti** - *Desenvolvimento e Tech Lead* - [Github](https://github.com/marcelpinotti)
 
 
 
