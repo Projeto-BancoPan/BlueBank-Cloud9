@@ -87,7 +87,19 @@ http://localhost:5000
 
 Esse código é uma alternativa para  aplicação bancária back-end com foco em construção de banco de dados de base de cliente e transações. Essa não é a unica forma de se realizar essa tarefa, além de sempre ser possívle a revisão por pares para que ele apresente novas funcionalidades e se torne mais limpos e performáticos.
 
-## U+1F50C	 Endpoint
+## 🔌	Endpoints
+####Cliente
+| Tipo | Descrição | Caminho |
+   |---|---|---|
+
+####Contas
+| Tipo | Descrição | Caminho |
+   |---|---|---|
+ 
+####Transações
+| Tipo | Descrição | Caminho |
+   |---|---|---|
+
 
 
 
