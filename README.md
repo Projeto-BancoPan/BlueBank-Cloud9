@@ -209,6 +209,13 @@ http://localhost:5000
 |GET|Retorna uma lista com todas as transacoes do cliente|/api/transacao/{conta_de_origem}|
 
 
+## ☁️ Demais Instalações:
+
+* Lambda: O arquivo lambda se encontra no arquivo bluebank-lambda.zip, para configurá-lo não é necessário extraí-lo. Basta entrar np serviço AWS lambda com uma conta válida e configurar como na documentação que segue: https://docs.aws.amazon.com/pt_br/lambda/latest/dg/configuration-function-zip.html
+* Script SQL: 
+
+
+
 
 
 ## 🛠️ Construído com
