@@ -45,6 +45,91 @@ A tabela a seguir apresenta os requisitos não funcionais que o projeto deverá 
  ![WhatsApp Image 2021-12-12 at 17 01 55](https://user-images.githubusercontent.com/64924032/145727985-f7137342-7a24-4a5f-8e2a-7a26a257e94e.jpeg)
 ### Estrutura de Dados
 
+O sistema foi construído com as seguintes estruturas de dados:
+
+##### Cliente:
+```
+{
+  "contaCorrenteModel": {
+    "agencia": "AGENCIA1",
+    "conta": 0,
+    "dataDeAbertura": "2021-12-12T18:36:48.273Z",
+    "dataDeEncerramento": "2021-12-12T18:36:48.273Z",
+    "saldoDaConta": 0
+  },
+  "email": "string",
+  "enderecoModel": {
+    "bairro": "string",
+    "cep": "string",
+    "cidade": "string",
+    "complemento": "string",
+    "estado": "AM",
+    "idEndereco": 0,
+    "logradouro": "string",
+    "numero": 0
+  },
+  "idCliente": 0,
+  "nome": "string",
+  "renda": 0,
+  "telefone": "string",
+  "tipoCliente": "PESSOAFISICA"
+}
+```
+
+##### Conta Corrente:
+```
+{
+  "agencia": "AGENCIA1",
+  "conta": 0,
+  "dataDeAbertura": "2021-12-12T18:36:48.391Z",
+  "dataDeEncerramento": "2021-12-12T18:36:48.391Z",
+  "saldoDaConta": 0
+}
+```
+
+##### Transações:
+```
+[
+  {
+    "agencia": "AGENCIA1",
+    "conta": 0,
+    "transacoesFeitas": [
+      {
+        "dataDaTransacao": "2021-12-12T18:36:48.418Z",
+        "numeroDaTransacao": 0,
+        "tipoDeTransacao": "PAGAMENTO",
+        "valorDaTransacao": 0
+      }
+    ],
+    "transacoesRecebidas": [
+      {
+        "dataDaTransacao": "2021-12-12T18:36:48.418Z",
+        "numeroDaTransacao": 0,
+        "tipoDeTransacao": "PAGAMENTO",
+        "valorDaTransacao": 0
+      }
+    ]
+  }
+]
+```
+
+##### Endereços:
+```
+{     "idEndereco": 0,
+      "bairro": "string",
+      "cep": "string",
+      "cidade": "string",
+      "complemento": "string",
+      "estado": "AM",
+      "logradouro": "string",
+      "numero": 0
+    },
+
+```
+
+
+
+
 ## 📋 Pré-requisitos
 
 Para executar o código foi utilzada a IDE ItelliJ e/ou Eclipse as linguagens Java, Spring e MySQL. É necessário possuir uma IDE que execute a aplicação springboot para teste de em repositório local. Na execução do projeto também foram utilizados Workbench MySQL, xampp, Dbeaver, Swagger e algum navegador de sua preferência.
@@ -88,19 +173,40 @@ http://localhost:5000
 Esse código é uma alternativa para  aplicação bancária back-end com foco em construção de banco de dados de base de cliente e transações. Essa não é a unica forma de se realizar essa tarefa, além de sempre ser possívle a revisão por pares para que ele apresente novas funcionalidades e se torne mais limpos e performáticos.
 
 ## 🔌	Endpoints
-
+Para acessar o banco de dados, é necessário acessar os endpoints que esta configurados no caminho abaixo + url do caminho nas tabelas:
+```
+http://localhost:5000
+```
 #### Cliente
 | Tipo | Descrição | Caminho |
    |---|---|---|
+|PUT|Atualiza os dados de um cliente|/api/cliente/atualizar/{idCliente}|
+|GET|Retorna o cliente pelo id somente com os contatos|/api/cliente/contato/{idCliente}|
+|DELETE|Atualiza os dados de um cliente|/api/cliente/deletar/{idCliente}|
+|GET|Atualiza os dados de um cliente|Retorna o cliente pelo id somente com o endereço|
+|GET|Retorna uma lista de todos os clientes|/api/cliente/listar|
+|POST|Salva um novo cliente|/api/cliente/salvar|
+|GET|Retorna uma lista de clientes pelo tipo|/api/cliente/tipo/{tipoCliente}|
+|GET|Retorna uma lista de clientes pelo tipo com endereços e contato|/api/cliente/tipo_filtro/{tipoCliente}|
+|GET|Retorna um cliente pelo id|/api/cliente/{idCliente}|
+
 
 #### Contas
 | Tipo | Descrição | Caminho |
    |---|---|---|
- 
+|PUT|Atualiza os dados de um cliente|/api/conta_corrente/atualizar|
+|GET|Listar todas as contas|/api/conta_corrente/listar|
+|GET|Localiza o cliente pelo número da conta|/api/conta_corrente/{conta}|
+
 #### Transações
 | Tipo | Descrição | Caminho |
    |---|---|---|
-
+|POST|Efetuar um depósito|/api/transacao/depositar/{conta_de_destino}/{valor_transacao}|
+|GET|Retorna uma lista com todas as transacoes|/api/transacao/listar|
+|POST|Efetuar um pagamento|/api/transacao/pagar/{conta_de_origem}/{valor_transacao}|
+|POST|Efetua uma transferência para outra conta|/api/transacao/pagar/{conta_de_origem}/{valor_transacao}|
+|POST|Efetuar um pagamento|/api/transacao/transferir/{conta_de_origem}/{valor_transacao}/{conta_de_destino}|
+|GET|Retorna uma lista com todas as transacoes do cliente|/api/transacao/{conta_de_origem}|
 
 
 
