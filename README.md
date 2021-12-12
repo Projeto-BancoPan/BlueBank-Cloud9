@@ -1,4 +1,4 @@
-# Aplicação do BlueBank-Cloud9 
+# Aplicação do BlueBank - Squad Cloud9 
 
 Aplicação construída como trabalho final do curso proporcionado pelo banco Pan e pela Gama Accademy. Foram dois meses intensivos de aulas diárias, com foco em desenvolvimento full stack utilizando Java, Spring Boot, MySql e AWS. O projeto consiste em desenvolver uma solução que simulasse um banco com suas transações. O time foi desafiado a partir de critérios mínimos a serem atendidos a pensar uma solução com as regras negócios a serem seguidas.
 
@@ -55,7 +55,7 @@ Para executar o código foi utilzada a IDE ItelliJ e/ou Eclipse as linguagens Ja
 
 O código foi desenvolvido em Java utilizando o Framework SpringBoot com algumas dependências específicas baseada em maven.
 
-Para iniciar, instale o itlliJ versão community:
+Para iniciar, instale o itelliJ versão community:
 
 ```
 https://www.jetbrains.com/pt-br/idea/download/#section=windows
@@ -79,7 +79,7 @@ Para o instalar acesse:
 https://www.postman.com/
 ```
 
-Então, para acessar o banco de dados, é necessário acessar os endpoints que esta configurados no caminho abaixo:
+Então, para acessar o banco de dados, é necessário acessar os endpoints que esta configurados no caminho abaixo e listados mais abaixo:
 ```
 http://localhost:5000
 ```
@@ -91,7 +91,6 @@ Esse código é uma alternativa para  aplicação bancária back-end com foco em
 
 ## 🛠️ Construído com
 
-Mencione as ferramentas que você usou para criar seu projeto
 
 * [IntelliJ](https://www.jetbrains.com/pt-br/idea/download/#section=windows) - IDE para desenvolvimento em Java 
 * [Java v. 11](https://www.java.com/pt-BR/) - GLinguagem para desenvolvimento multiplataforma
@@ -99,7 +98,7 @@ Mencione as ferramentas que você usou para criar seu projeto
 * [Swagger](https://swagger.io/tools/swagger-ui/) - Ferramenta de documentação visual de endpoints de aplicações
 * [AWS Lambda](https://aws.amazon.com/pt/lambda/?nc2=type_a) - Serviço da AWS com arquitetura Serveless
 * [AWS Elastic beanstalks](https://aws.amazon.com/pt/elasticbeanstalk/) - Serviço de implantação e escalabilidade de aplicações 
-* [AWS Build] (https://aws.amazon.com/pt/codebuild/) - Serviço de integração Contínua
+* [AWS Build](https://aws.amazon.com/pt/codebuild/) - Serviço de integração Contínua
 * [AWS SNS](https://aws.amazon.com/pt/sns/?whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc) - Serviço de mensageria
 * [AWS API Gateway](https://aws.amazon.com/pt/api-gateway/) - Serviço de publicação e gerenciamento de API
 * [PostMan](https://www.postman.com/) - Plataforma de desenvolvimento de API.
@@ -117,7 +116,7 @@ Mencione as ferramentas que você usou para criar seu projeto
 
 * **João Pedro Marques Mourão** - *Desenvolvimento e Scrum Master* - [João Pedro Marques Mourão](https://github.com/joaopedro-marques)
 * **Leandro de Barros** - *Desenvolvimento* - 
-* **Luiz Nascimento da Silva** - *Desenvolvimento* -
+* **Luiz Nascimento da Silva** - *Desenvolvimento* - [Luiz Nascimento](https://github.com/luizns)
 * **Marcel Eduardo Vicaria Pinotti** - *Desenvolvimento e Tech Lead* - [Marcel Pinotti](https://github.com/marcelpinotti)
 
 
