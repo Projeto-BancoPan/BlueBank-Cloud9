@@ -39,9 +39,12 @@ public class TransacaoController {
     @GetMapping(value = "/{conta_de_origem}/")
     @ApiOperation(value = "Retorna uma lista com todas as transacoes do cliente")
     public ResponseEntity transacaoClienteConsultar(@PathVariable("conta_de_origem") Long conta_de_origem) {
-        return contaCorrenteRepository.findById(conta_de_origem)
-                .map(record -> ResponseEntity.ok().body(record))
-                .orElse(ResponseEntity.notFound().build());
+        if (!contaCorrenteRepository.existsById(conta_de_origem)) {
+            return ResponseEntity.notFound().build();
+        }
+        ContaCorrenteModel contaCorrenteModel = contaCorrenteRepository.getById(conta_de_origem);
+        ConsultaListaDeTransacoesDTO consultaListaDeTransacoesDTO = new ConsultaListaDeTransacoesDTO(contaCorrenteModel);
+        return ResponseEntity.ok(consultaListaDeTransacoesDTO);
     }
 
     @PostMapping(value = "/pagar/{conta_de_origem}/{valor_transacao}")
