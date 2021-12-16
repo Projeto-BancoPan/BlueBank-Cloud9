@@ -208,11 +208,14 @@ http://localhost:5000
 |POST|Efetuar um pagamento|/api/transacao/transferir/{conta_de_origem}/{valor_transacao}/{conta_de_destino}|
 |GET|Retorna uma lista com todas as transacoes do cliente|/api/transacao/{conta_de_origem}|
 
+####Lambda
+https://r6uzq7zq37.execute-api.us-east-2.amazonaws.com/prod/lambda_cloud9
+
 
 ## ☁️ Demais Instalações:
 
-* Lambda: O arquivo lambda se encontra no arquivo bluebank-lambda.zip, para configurá-lo não é necessário extraí-lo. Basta entrar np serviço AWS lambda com uma conta válida e configurar como na documentação que segue: https://docs.aws.amazon.com/pt_br/lambda/latest/dg/configuration-function-zip.html
-* Script SQL: 
+* Lambda: O arquivo lambda se encontra no arquivo lambda-java-spring-1.0-SNAPSHOT.jar. Para configurá-lo basta acessar o serviço AWS lambda com uma conta válida e configurar como na documentação que segue: https://docs.aws.amazon.com/pt_br/lambda/latest/dg/configuration-function-zip.html
+* Script SQL: O Script para popular já está configurado no applcation.propperties e será executado automaticamente ao seu rodado na nuvem ou no repositório local. o arquivo é script sql.sql.
 
 
 
